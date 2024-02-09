@@ -1,0 +1,158 @@
+<section class="pb-5 pt-4">
+  <div class="container">
+    <div class="row gap-5 gap-md-0">
+      <div class="col-md-4">
+        <aside class="custom-card position-sticky d-flex flex-column">
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <ngx-skeleton-loader
+              *ngIf="!userData"
+              [theme]="{
+                width: '70px',
+                height: '70px',
+                'border-radius': '0'
+              }"
+            ></ngx-skeleton-loader>
+            <div
+              *ngIf="userData"
+              [loadingSpinner]="changingImage"
+              class="profile-picture position-relative"
+            >
+              <img
+                *ngIf="userData?.image"
+                [src]="userData?.image"
+                class="w-100 h-100 object-fit-contain"
+                [alt]="userData?.first_name"
+              />
+              <div
+                *ngIf="!userData?.image"
+                class="w-100 h-100 bg-light-3 d-flex justify-content-center align-items-center"
+              >
+                <i class="fa-solid fa-user fa-2xl"></i>
+              </div>
+
+              <label
+                for="image-input"
+                class="upload-image position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-flex justify-content-center align-items-center text-white"
+                ><i
+                  class="fa-solid fa-upload fa-xl"
+                  aria-label="Upload profile picture"
+                ></i
+              ></label>
+              <input
+                type="file"
+                accept=".png, .jpg, .jpeg"
+                id="image-input"
+                (change)="onPictureUpload($event)"
+                hidden
+              />
+            </div>
+
+            <div class="">
+              <p class="fw-semibold">{{ userData?.name }}</p>
+              <ngx-skeleton-loader
+                *ngIf="!userData?.name"
+                [theme]="{
+                  'border-radius': '0',
+                  width: '100%'
+                }"
+              ></ngx-skeleton-loader>
+              <p class="fs-small text-gray-2 mt-1">{{ userData?.email }}</p>
+              <ngx-skeleton-loader
+                *ngIf="!userData?.email"
+                [theme]="{
+                  'border-radius': '0',
+                  width: '100%'
+                }"
+              ></ngx-skeleton-loader>
+            </div>
+          </div>
+
+          <hr />
+
+          <ul class="d-flex flex-column gap-4 flex-1">
+            <li>
+              <a
+                routerLink="/profile"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="nav-link"
+              >
+                <span>
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                Basic Information</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/profile/orders"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <span>
+                  <i class="fa-solid fa-cubes"></i>
+                </span>
+                My Orders</a
+              >
+            </li>
+            <!-- <li>
+              <a routerLink="/stock" routerLinkActive="active" class="nav-link">
+                <span>
+                  <i class="fa-solid fa-cubes"></i>
+                </span>
+                My Stock</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/profile/deliveries"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <span>
+                  <i class="fa-solid fa-cubes"></i>
+                </span>
+                Deliveries</a
+              >
+            </li> -->
+            <li>
+              <a
+                routerLink="/profile/addresses"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <span>
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                My Addresses</a
+              >
+            </li>
+            <li class="mt-auto">
+              <button [swal]="logoutPopup" class="btn p-0">
+                <span>
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </span>
+                Logout
+              </button>
+            </li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="col-md-8">
+        <div class="custom-card h-100">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<swal
+  #logoutPopup
+  text="Are your sure you want to logout?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Logout'"
+  (confirm)="logout()"
+>
+</swal>

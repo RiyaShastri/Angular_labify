@@ -1,0 +1,18 @@
+<nb-card>
+  <nb-card-body>
+    <nb-tabset (changeTab)="onTabChange($event)">
+      <nb-tab tabTitle="City">
+        <app-city *ngIf="currentTab == 'City'"></app-city>
+      </nb-tab>
+      <nb-tab tabTitle="Mile">
+        <app-mile *ngIf="currentTab == 'Mile'"></app-mile>
+      </nb-tab>
+      <nb-tab tabTitle="Surcharge">
+        <app-surcharge *ngIf="currentTab == 'Surcharge'"></app-surcharge>
+      </nb-tab>
+      <nb-tab tabTitle="default-city-price">
+        <app-default-city *ngIf="currentTab == 'default-city-price'"></app-default-city>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

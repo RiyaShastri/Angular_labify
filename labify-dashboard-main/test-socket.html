@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #map {
+        height: 100vh;
+        width: 100%;
+      }
+
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvBFvz1U4Kl2RRGJq-AI0k53FY4bmXCOU&libraries=places&language=en"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+      let map;
+      let marker;
+      // let socketUrl = "https://www.developnetwork.net";
+      // let socketUrl = "https://labify-socket-test.onrender.com";
+      let socketUrl = "https://labyfi.onrender.com";
+
+      const socket = io(socketUrl, {
+        extraHeaders: {
+          // Ahmed
+          Authorization:
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2JhY2tlbmQubGFieWZpLmNvbS9hcGkvZHJpdmVyL2F1dGgvbG9naW4tZHJpdmVyIiwiaWF0IjoxNzAyMzEwMzkwLCJleHAiOjM1OTQ0NzAzOTAsIm5iZiI6MTcwMjMxMDM5MCwianRpIjoialN2WlZKczU1SjRKV0pzMyIsInN1YiI6IjQiLCJwcnYiOiI5MTljMzI2ZDQzYWIxNTE5YThiYTNiODU4NmI2ODc1MmU4YzgzODA3In0.PqzUG3V6mXhJReFnnqFINr0nFFD2p6_c8MN12ewGO_s",
+        },
+      });
+
+      socket.on("connect", () => {
+        // console.log("connected");
+      });
+
+      socket.on("disconnect", () => {
+        // console.log("disconnected");
+      });
+
+      function placeMarker(location) {
+        new google.maps.Marker({
+          position: location,
+          icon: "/src/assets/img/dot.svg",
+          map: map,
+        });
+
+        // console.log("Latitude:", location.lat());
+        // console.log("Longitude:", location.lng());
+
+        socket.emit(`driver-location-updated`, {
+          lat: location.lat(),
+          lng: location.lng(),
+        });
+
+        socket.emit(`drivers-updated`);
+        // socket.emit(`drivers-updated-new`);
+      }
+
+      (() => {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 40.73061, lng: -73.935242 }, // Default center
+          zoom: 10, // Default zoom level
+          cursor: "pointer",
+        });
+
+        map.addListener("click", (event) => {
+          placeMarker(event.latLng);
+        });
+      })();
+    </script>
+  </body>
+</html>

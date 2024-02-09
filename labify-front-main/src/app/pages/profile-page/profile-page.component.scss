@@ -1,0 +1,57 @@
+@use "../../../styles/helpers" as *;
+
+.profile-picture {
+  width: 70px;
+  height: 70px;
+
+  .upload-image {
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .upload-image {
+      opacity: 1;
+    }
+  }
+}
+
+ul li {
+  .nav-link,
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+
+    span {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .nav-link {
+    color: $gray-2;
+
+    &:hover {
+      color: $gray-4;
+    }
+
+    &.active {
+      color: $green;
+    }
+  }
+
+  .btn {
+    color: $red;
+  }
+}
+
+aside {
+  @include screen-md {
+    min-height: calc(100vh - 120px);
+    top: 96px;
+  }
+}

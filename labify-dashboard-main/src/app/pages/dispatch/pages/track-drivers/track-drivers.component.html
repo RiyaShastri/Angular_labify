@@ -1,0 +1,192 @@
+<div class="container-fluid h-100">
+  <div class="row gap-0 h-100">
+    <div class="col-xl-3 px-0 h-xl-100 mb-4 mb-xl-0">
+      <nb-card>
+        <nb-card-body class="p-0">
+          <nb-accordion>
+            <nb-accordion-item
+              *ngIf="!loggedAsCompany"
+              (collapsedChange)="accordionChanged('idle: ' + $event)"
+            >
+              <nb-accordion-item-header>
+                Idle Drivers ({{ idleCount }})
+              </nb-accordion-item-header>
+              <nb-accordion-item-body [nbSpinner]="idleLoading">
+                <nb-list>
+                  <nb-list-item *ngFor="let driver of idleDrivers">
+                    <input
+                      class="text-left"
+                      (change)="onSelectDriver(driver, false)"
+                      id="idle_driver_checkbox_{{ driver.id }}"
+                      [checked]="selectedDriver.id === driver.id"
+                      type="radio"
+                      name="orders"
+                      [value]="driver"
+                    />
+                    <label for="idle_driver_checkbox_{{ driver.id }}">
+                      <span class="marker"></span>
+                      <span class="background"> </span>
+                      <p
+                        class="m-0 d-flex justify-content-between align-items-center"
+                      >
+                        <span>
+                          <span class="fw-bold">{{ driver.name }}</span>
+                          <span class="fw-normal pl-2"
+                            >(ID: {{ driver.id }})</span
+                          >
+                        </span>
+                        <button
+                          (click)="showMap = !showMap"
+                          nbButton
+                          [size]="'tiny'"
+                          [status]="'primary'"
+                        >
+                          {{ showMap ? "View Details" : "View Map" }}
+                        </button>
+                      </p>
+                    </label>
+                  </nb-list-item>
+                </nb-list>
+                <p
+                  *ngIf="!idleLoading && idleDrivers?.length === 0"
+                  class="p-3 text-center"
+                >
+                  No Idle Drivers Found
+                </p>
+                <p *ngIf="idleLoading" class="p-4 text-center"></p>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item
+              *ngIf="!loggedAsCompany"
+              (collapsedChange)="accordionChanged('assigned: ' + $event)"
+            >
+              <nb-accordion-item-header>
+                Assigned Drivers ({{ assignedCount }})
+              </nb-accordion-item-header>
+              <nb-accordion-item-body [nbSpinner]="assignedLoading">
+                <nb-list>
+                  <nb-list-item *ngFor="let driver of assignedDrivers">
+                    <input
+                      class="text-left"
+                      (change)="onSelectDriver(driver, false)"
+                      id="assigned_driver_checkbox_{{ driver.id }}"
+                      [checked]="selectedDriver.id === driver.id"
+                      type="radio"
+                      name="orders"
+                      [value]="driver"
+                    />
+                    <label for="assigned_driver_checkbox_{{ driver.id }}">
+                      <span class="marker"></span>
+                      <span class="background"> </span>
+                      <p
+                        class="m-0 d-flex justify-content-between align-items-center"
+                      >
+                        <span>
+                          <span class="fw-bold">{{ driver.name }}</span>
+                          <span class="fw-normal pl-2"
+                            >(ID: {{ driver.id }})</span
+                          >
+                        </span>
+                        <button
+                          (click)="showMap = !showMap"
+                          nbButton
+                          [size]="'tiny'"
+                          [status]="'primary'"
+                        >
+                          {{ showMap ? "View Details" : "View Map" }}
+                        </button>
+                      </p>
+                    </label>
+                  </nb-list-item>
+                </nb-list>
+                <p
+                  *ngIf="!assignedLoading && assignedDrivers?.length === 0"
+                  class="p-3 text-center"
+                >
+                  No Assigned Drivers Found
+                </p>
+                <p *ngIf="assignedLoading" class="p-4 text-center"></p>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item
+              (collapsedChange)="accordionChanged('active: ' + $event)"
+              [collapsed]="false"
+            >
+              <nb-accordion-item-header>
+                Active Drivers ({{ activeCount }})
+              </nb-accordion-item-header>
+              <nb-accordion-item-body [nbSpinner]="activeLoading">
+                <nb-list>
+                  <nb-list-item *ngFor="let driver of activeDrivers">
+                    <input
+                      class="text-left"
+                      (change)="onSelectDriver(driver, true)"
+                      id="active_driver_checkbox_{{ driver.id }}"
+                      type="radio"
+                      name="orders"
+                      [checked]="selectedDriver.id === driver.id"
+                      [value]="driver"
+                    />
+                    <label for="active_driver_checkbox_{{ driver.id }}">
+                      <span class="marker"></span>
+                      <span class="background"> </span>
+                      <p
+                        class="m-0 d-flex justify-content-between align-items-center"
+                      >
+                        <span>
+                          <span class="fw-bold">{{ driver.name }}</span>
+                          <span class="fw-normal pl-2"
+                            >(ID: {{ driver.id }})</span
+                          >
+                        </span>
+                        <button
+                          (click)="showMap = !showMap"
+                          nbButton
+                          [size]="'tiny'"
+                          [status]="'primary'"
+                        >
+                          {{ showMap ? "View Details" : "View Map" }}
+                        </button>
+                      </p>
+                    </label>
+                  </nb-list-item>
+                </nb-list>
+                <p
+                  *ngIf="!activeLoading && activeDrivers?.length === 0"
+                  class="p-3 text-center"
+                >
+                  No Active Drivers Found
+                </p>
+                <p *ngIf="activeLoading" class="p-4 text-center"></p>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+        </nb-card-body>
+      </nb-card>
+    </div>
+
+    <div class="col-xl-9 px-0 pl-xl-3 h-100">
+      <!-- [nbSpinner]="driverLoading" -->
+      <div
+        class="position-relative w-100"
+        style="min-height: 100%"
+      >
+        <app-track-drivers-map
+          [driverData]="selectedDriverData"
+          [isActiveDriver]="selectedDriverIsActive"
+          [activeDrivers]="activeDrivers"
+        ></app-track-drivers-map>
+        <app-track-drivers-details
+          class=""
+          *ngIf="!showMap"
+          [ngClass]="{ 'd-none': showMap && !driverLoading }"
+          [driverData]="selectedDriverData"
+          (driverDataChange)="getDriverById(selectedDriverData.id)"
+        >
+        </app-track-drivers-details>
+      </div>
+    </div>
+  </div>
+</div>

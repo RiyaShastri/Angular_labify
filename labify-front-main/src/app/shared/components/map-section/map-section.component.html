@@ -1,0 +1,35 @@
+<section class="map-section bg-light-green py-6">
+  <div class="container">
+    <h2 class="text-blue-2">Our Trusted Clients</h2>
+    <p class="text-gray-2">
+      Trusted by hundreds of the world best medical organizations
+    </p>
+
+    <div
+      class="d-flex justify-content-center align-items-center gap-4 my-5 flex-wrap"
+    >
+      <img
+        *ngFor="let i of [].constructor(5)"
+        src="../../../assets/img/hospital-logo.svg"
+        alt=""
+      />
+    </div>
+
+    <div class="row pt-5 mt-5 justify-content-between align-items-center">
+      <div class="col-md-4">
+        <h3 class="text-gray-4 display-5 fw-normal">
+          <span class="fw-bold">Location</span><br />
+          and<br />
+          Directions
+        </h3>
+        <p class="text-green mt-4">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+      </div>
+      <div class="col-md-7">
+        <app-map-svg></app-map-svg>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<ng2-smart-table
+  [nbSpinner]="loading"
+  [settings]="settings"
+  [source]="source"
+  (editConfirm)="onEditConfirm($event)"
+  (createConfirm)="onCreateConfirm($event)"
+>
+</ng2-smart-table>
+
+<ng-container *ngIf="paginationArgs">
+  <ng-template
+    *ngFor="let item of data | paginate : paginationArgs"
+  ></ng-template>
+</ng-container>
+
+<pagination-controls
+  *ngIf="paginationArgs"
+  id="pagination"
+  (pageChange)="getList($event)"
+  (pageBoundsCorrection)="getList($event)"
+  previousLabel="Previous"
+  nextLabel="Next"
+  screenReaderPaginationLabel="Pagination"
+  screenReaderPageLabel="page"
+  screenReaderCurrentLabel="You're on page"
+>
+</pagination-controls>

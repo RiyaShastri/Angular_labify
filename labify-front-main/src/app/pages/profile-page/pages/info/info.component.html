@@ -1,0 +1,156 @@
+<section *ngIf="userData && !loading">
+  <h3 class="text-gray-3 fs-5 fw-semibold mb-4">Basic Info</h3>
+
+  <form
+    [formGroup]="userDataForm"
+    (ngSubmit)="onSubmit()"
+    class="d-flex flex-column gap-4"
+    style="min-height: 75vh"
+  >
+    <div class="row gap-4 row-gap-4 gap-md-0">
+      <div class="col-md-6">
+        <label for="first-name" class="pb-1 fw-semibold text-gray-3"
+          >First Name</label
+        >
+        <input
+          type="text"
+          id="first-name"
+          formControlName="first_name"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': isFieldValid('first_name'),
+            'is-invalid': isFieldInvalid('first_name')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('first_name')">
+          First name can't be empty
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="last-name" class="pb-1 fw-semibold text-gray-3"
+          >Last Name</label
+        >
+        <input
+          type="text"
+          id="last-name"
+          formControlName="last_name"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': isFieldValid('last_name'),
+            'is-invalid': isFieldInvalid('last_name')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('last_name')">
+          Last name can't be empty
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <label for="name" class="pb-1 fw-semibold text-gray-3">Email</label>
+        <input
+          type="email"
+          id="name"
+          formControlName="email"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': isFieldValid('email'),
+            'is-invalid': isFieldInvalid('email')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+          Email is invalid
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <label for="name" class="pb-1 fw-semibold text-gray-3"
+          >Phone Number</label
+        >
+        <input
+          type="tel"
+          id="name"
+          formControlName="phone"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': isFieldValid('phone'),
+            'is-invalid': isFieldInvalid('phone')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+          Phone number must be 11 digits
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      [loadingSpinner]="updating"
+      class="btn btn-primary fw-semibold ms-auto py-3 px-5 mt-auto"
+    >
+      Update
+    </button>
+  </form>
+</section>
+
+<section *ngIf="loading">
+  <h3 class="text-gray-3 fs-5 fw-semibold mb-4">Basic Info</h3>
+
+  <div class="d-flex flex-column gap-4" style="min-height: 75vh">
+    <div class="row gap-4 row-gap-4 gap-md-0">
+      <div class="col-md-6">
+        <label for="first-name" class="pb-1 fw-semibold text-gray-3"
+          >First Name</label
+        >
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '100%',
+            height: '50px',
+            'border-radius': '0'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="col-md-6">
+        <label for="last-name" class="pb-1 fw-semibold text-gray-3"
+          >Last Name</label
+        >
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '100%',
+            height: '50px',
+            'border-radius': '0'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="col-12 mt-4">
+        <label for="name" class="pb-1 fw-semibold text-gray-3">Email</label>
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '100%',
+            height: '50px',
+            'border-radius': '0'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+
+      <div class="col-12 mt-4">
+        <label for="name" class="pb-1 fw-semibold text-gray-3"
+          >Phone Number</label
+        >
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '100%',
+            height: '50px',
+            'border-radius': '0'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+    </div>
+
+    <button class="btn btn-primary fw-semibold ms-auto py-3 px-5 mt-auto">
+      Update
+    </button>
+  </div>
+</section>

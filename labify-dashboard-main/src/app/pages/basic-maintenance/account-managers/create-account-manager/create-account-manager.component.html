@@ -1,0 +1,208 @@
+<nb-card>
+  <nb-card-header>Add new account manager</nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <label for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              nbInput
+              placeholder="Name"
+              [status]="
+                isFieldTouched('name')
+                  ? isFieldValid('name')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('name')">
+              Name is required!
+            </p>
+          </div>
+          <div class="input">
+            <label for="email">Email</label>
+            <nb-form-field>
+              <nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                nbInput
+                fullWidth
+                placeholder="Email"
+                [status]="
+                  isFieldTouched('email')
+                    ? isFieldValid('email')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+            </nb-form-field>
+            <p class="caption status-danger" *ngIf="isFieldInvalid('email')">
+              Invalid email!
+            </p>
+          </div>
+          <!-- <div class="input">
+            <label for="username">Username</label>
+            <input
+              id="username"
+              type="tel"
+              formControlName="username"
+              nbInput
+              placeholder="Username"
+              [status]="
+                isFieldTouched('username')
+                  ? isFieldValid('username')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('username')">
+              Username is required!
+            </p>
+          </div> -->
+          <div class="input">
+            <label for="phone">Phone</label>
+            <input
+              id="phone"
+              type="tel"
+              formControlName="phone"
+              nbInput
+              placeholder="Phone"
+              [status]="
+                isFieldTouched('phone')
+                  ? isFieldValid('phone')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('phone')">
+              Phone is required!
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+
+
+
+        </div>
+
+        <div class="row">
+          <div class="input">
+            <label for="password">Password</label>
+            <nb-form-field>
+              <input
+                [type]="showPassword ? 'input' : 'password'"
+                id="password"
+                nbInput
+                fullWidth
+                placeholder="**************"
+                formControlName="password"
+                [status]="
+                  isFieldTouched('password')
+                    ? isFieldValid('password')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+              <button
+                type="button"
+                nbSuffix
+                nbButton
+                ghost
+                (click)="showPassword = !showPassword"
+              >
+                <nb-icon
+                  [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                  pack="eva"
+                  [attr.aria-label]="
+                    showPassword ? 'hide password' : 'show password'
+                  "
+                >
+                </nb-icon>
+              </button>
+            </nb-form-field>
+
+            <p class="caption status-danger" *ngIf="isFieldInvalid('password')">
+              Password is required!
+            </p>
+          </div>
+
+          <div class="input">
+            <label for="password_confirmation">Password confirm</label>
+            <nb-form-field>
+              <input
+                [type]="showConfirmPassword ? 'input' : 'password'"
+                id="password_confirmation"
+                nbInput
+                fullWidth
+                placeholder="**************"
+                formControlName="password_confirmation"
+                [status]="
+                  isFieldTouched('password_confirmation')
+                    ? isFieldValid('password_confirmation') &&
+                      !userForm.hasError('matchFields')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+              <button
+                type="button"
+                nbSuffix
+                nbButton
+                ghost
+                (click)="showConfirmPassword = !showConfirmPassword"
+              >
+                <nb-icon
+                  [icon]="
+                    showConfirmPassword ? 'eye-outline' : 'eye-off-2-outline'
+                  "
+                  pack="eva"
+                  [attr.aria-label]="
+                    showConfirmPassword ? 'hide password' : 'show password'
+                  "
+                >
+                </nb-icon>
+              </button>
+            </nb-form-field>
+            <p
+              class="caption status-danger"
+              *ngIf="
+                isFieldInvalid('password_confirmation') ||
+                userForm.hasError('matchFields')
+              "
+            >
+              Password doesn't match!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button nbButton type="button" (click)="goBack()">Cancel</button>
+
+        <button
+          nbButton
+          [nbSpinner]="loading"
+          nbSpinnerStatus="basic"
+          [disabled]="loading"
+          status="primary"
+          type="submit"
+        >
+          Save Account Manager
+        </button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

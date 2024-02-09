@@ -1,0 +1,44 @@
+<nb-card>
+  <nb-card-header> Account Managers </nb-card-header>
+
+  <nb-card-body [nbSpinner]="loading">
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (delete)="confirmDeleteAccountManager($event, confirmDialog)"
+      (edit)="editAccountManager($event)"
+      (create)="storeNewAccountManager()"
+    >
+    </ng2-smart-table>
+  </nb-card-body>
+
+  <ng-container *ngIf="paginationArgs">
+    <ng-template
+      *ngFor="let item of data | paginate : paginationArgs"
+    ></ng-template>
+  </ng-container>
+
+  <pagination-controls
+    *ngIf="paginationArgs"
+    id="pagination"
+    (pageChange)="getAccountManagers($event)"
+    (pageBoundsCorrection)="getAccountManagers($event)"
+    previousLabel="Previous"
+    nextLabel="Next"
+    screenReaderPaginationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page"
+  >
+  </pagination-controls>
+</nb-card>
+
+<ng-template #confirmDialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Delete Account Manager!</nb-card-header>
+    <nb-card-body>Are you sure you want to delete this account manager?</nb-card-body>
+    <nb-card-footer class="button-group">
+      <button nbButton (click)="ref.close()">Cancel</button>
+      <button nbButton status="danger" (click)="ref.close(); deleteAccountManager()">Delete</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

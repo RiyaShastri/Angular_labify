@@ -1,0 +1,141 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-xl-3 px-0 h-100 mb-4 mb-xl-0">
+      <nb-card class="h-100">
+        <nb-card-header
+          class="d-flex p-3 justify-content-between align-items-center"
+        >
+          <p class="font-weight-bold m-0">
+            {{ selectedOrders.length }}
+            {{ selectedOrders.length === 1 ? "order" : "orders" }} selected
+          </p>
+          <button
+            nbButton
+            status="primary"
+            (click)="openAssignDriverDialog(assignDriverDialog)"
+            [disabled]="selectedOrders?.length === 0 || assignDriverLoading"
+            [size]="'small'"
+            [nbSpinner]="assignDriverLoading"
+          >
+            Assign driver
+          </button>
+        </nb-card-header>
+        <nb-card-body [nbSpinner]="loading" class="p-0">
+          <nb-list>
+            <nb-list-item
+              *ngFor="let order of orders; index as i"
+            >
+              <input
+                class="text-left"
+                (change)="onSelectOrder(order)"
+                id="orders_checkbox_{{ i + 1 }}"
+                type="checkbox"
+                name="orders"
+                [checked]="false"
+                [value]="order"
+              />
+              <label
+                for="orders_checkbox_{{ i + 1 }}"
+                class=".color-{{ order.color }}"
+              >
+                <span
+                  class="marker"
+                  [ngStyle]="{ backgroundColor: order.color }"
+                ></span>
+                <span
+                  class="background"
+                  [ngStyle]="{ backgroundColor: order.color }"
+                >
+                </span>
+                <p class="m-0">
+                  <span class="fw-bold"> Order: </span>
+                  {{ order.order_code }} ({{ order.service }})
+                </p>
+                <p class="m-0">
+                  <span class="fw-bold"> from: </span>
+                  {{ order.pickup_address_name }} ({{order.pickup_address}})
+                </p>
+                <p class="m-0">
+                  <span class="fw-bold"> to: </span>
+                  {{ order.delivery_address_name }} ({{order.delivery_address}})
+                </p>
+              </label>
+            </nb-list-item>
+          </nb-list>
+
+          <p *ngIf="!loading && orders?.length === 0" class="p-3 text-center">
+            {{ "No Orders Found" }}
+          </p>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-xl-9 px-0 pl-xl-3 h-100" style="position: relative">
+      <div
+        #mapContainer
+        style="
+          width: 100%;
+          height: 100%;
+          min-height: calc(100vh - 7.2rem) !important;
+        "
+      ></div>
+
+      <button
+        (click)="deselectAll()"
+        *ngIf="selectedMarkersAndPolylines?.length"
+        status="primary"
+        nbButton
+        class="deselect-btn"
+      >
+        Deselect All
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #assignDriverDialog let-dialog let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header
+      >Select driver to assign {{ selectedOrders.length }}
+      {{ selectedOrders.length === 1 ? "order" : "orders" }}</nb-card-header
+    >
+    <nb-card-body class="d-flex align-items-center">
+      <input
+        #autoInput
+        nbInput
+        type="text"
+        class="w-100"
+        (input)="onDriverChange()"
+        placeholder="Select Driver"
+        [value]="selectedDriver?.name"
+        [nbAutocomplete]="autoDriver"
+      />
+
+      <nb-autocomplete
+        #autoDriver
+        (selectedChange)="onDriverSelectionChange($event)"
+      >
+        <nb-option
+          *ngFor="let option of filteredDrivers$ | async"
+          [value]="option"
+        >
+          {{ option.name }}
+        </nb-option>
+      </nb-autocomplete>
+    </nb-card-body>
+
+    <nb-card-footer class="button-group">
+      <button nbButton class="mr-2" (click)="ref.close()">Cancel</button>
+      <button
+        nbButton
+        [nbSpinner]="loading"
+        nbSpinnerStatus="basic"
+        [disabled]="loading"
+        status="primary"
+        type="submit"
+        (click)="onDriverSelected(); ref.close()"
+      >
+        Assign Driver
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

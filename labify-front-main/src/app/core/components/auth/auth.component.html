@@ -1,0 +1,7 @@
+<ng-container [ngSwitch]="currentComponent">
+  <app-login *ngSwitchCase="'login'"></app-login>
+  <app-register *ngSwitchCase="'register'"></app-register>
+  <app-forget-password *ngSwitchCase="'forget-password'"></app-forget-password>
+  <app-check-code *ngSwitchCase="'check-code'"></app-check-code>
+  <app-reset-password *ngSwitchCase="'reset-password'"></app-reset-password>
+</ng-container>

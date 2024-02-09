@@ -1,0 +1,117 @@
+<!-- <ng2-smart-table [nbSpinner]="loading" [settings]="settings" [source]="source" (edit)="confirmUpdateSchedule($event, updateDialog)"
+  (create)="confirmCreateSchedule(dialog)">
+</ng2-smart-table> -->
+<button class="btn btn-info float-right mb-3" *ngIf="!editeMode" (click)="updatePrice()">Update Price</button>
+<button class="btn btn-success float-right mb-3 mr-2"  (click)="confirmCreateSchedule(dialog)">Add Price</button>
+
+<div id="table" class="table-editable my-3" >
+  <table class="table table-bordered table-responsive-md  text-center">
+    <thead>
+      <tr>
+        <th class="text-center">Postal Code</th>
+        <th class="text-center">City</th>
+        <th class="text-center">Regular </th>
+        <th class="text-center">STAT </th>
+        <th class="text-center">Super STAT </th>
+        <th class="text-center">Next Day </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cityPrices;let i=index">
+        <td class="pt-3-half">{{item.city.postal_code}}</td>
+        <td class="pt-3-half">{{item.city.city}}</td>
+        <td class="pt-3-half"><input type="text" class="form-control" [value]=item.default_reqular_cities
+            [disabled]="!editeMode" (input)="onPriceChange(item, $event,'default_reqular_cities')"></td>
+        <td class="pt-3-half"><input type="text" class="form-control" [value]=item.default_stat_cities
+            [disabled]="!editeMode" (input)="onPriceChange(item, $event,'default_stat_cities')"></td>
+        <td class="pt-3-half"><input type="text" class="form-control" [value]=item.default_super_stat_cities
+            [disabled]="!editeMode" (input)="onPriceChange(item,$event,'default_super_stat_cities')"></td>
+        <td class="pt-3-half"><input type="text" class="form-control" [value]=item.default_next_day_cities
+            [disabled]="!editeMode" (input)="onPriceChange(item,$event,'default_next_day_cities')"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-info float-right" *ngIf="editeMode" (click)="submitCityPrice(currentPage)">Save Changes</button>
+
+</div>
+<ng-container *ngIf="cityPricesPaginationArgs">
+  <ng-template *ngFor="let price of cityPrices | paginate : cityPricesPaginationArgs"></ng-template>
+</ng-container>
+
+<pagination-controls *ngIf="cityPricesPaginationArgs" id="pagination" (pageChange)="getList($event)"
+  (pageBoundsCorrection)="getList($event)" previousLabel="Previous" nextLabel="Next"
+  screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+</pagination-controls>
+<ng-template #dialog let-dialog let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Add Postal Code</nb-card-header>
+    <nb-card-body>Enter Postal Code :
+      <div class="">
+        <label for="postalcode">Postal code <span class="required">(Required)</span></label>
+        <div class="postalcode-input-group">
+          <input id="postalcode" type="text" [(ngModel)]="postalCode" nbInput (input)="onPostalcodeChange()"
+            placeholder="Enter postal code" [status]="showPostalcodeError ? 'danger' : 'basic'" />
+          <button nbButton status="primary" (click)="getAddressData()">
+            Verify
+          </button>
+          <div class="city d-flex align-items-center ml-5">
+            <label for="">postal code</label>
+            <input type="text" class="ml-3" nbInput [value]="postal_code || ''" readonly />
+          </div>
+          <div class="city d-flex align-items-center ml-5">
+            <label for="">City</label>
+            <input type="text" class="ml-3" nbInput [value]="city || ''" readonly />
+          </div>
+          <div class="city d-flex align-items-center ml-5">
+            <label for="">State</label>
+            <input type="text" class="ml-3" nbInput [value]="state || ''" readonly />
+          </div>
+
+        </div>
+        <p class="caption status-danger" *ngIf="showPostalcodeError">
+          Invalid postal code!
+        </p>
+      </div>
+
+    </nb-card-body>
+    <nb-card-footer class="button-group">
+      <button nbButton (click)="ref.close()">Cancel</button>
+      <button nbButton status="danger" class="ml-3" (click)=" addPostal();ref.close()">Add Postal code</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<ng-template #updateDialog let-dialog let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Update Price!</nb-card-header>
+    <nb-card-body >Enter Price values :
+     <div class="postalcode-input-group flex-column">
+      <div class="city d-flex align-items-center  justify-content-between  ml-5 mr-3 ">
+        <label for="">postal code</label>
+        <input type="text" class="ml-3" nbInput [value]="postal_code || ''" disabled />
+      </div>
+      <div class="city d-flex align-items-center  justify-content-between ml-5 mr-3 ">
+        <label for="">Regular</label>
+        <input type="text" class="ml-3" nbInput [(ngModel)]="default_reqular_cities "  />
+      </div>
+      <div class="city d-flex align-items-center  justify-content-between ml-5 mr-3 ">
+        <label for="">Stat</label>
+        <input type="text" class="ml-3" nbInput [(ngModel)]="default_stat_cities  "  />
+      </div>
+      <div class="city d-flex align-items-center  justify-content-between ml-5 mr-3 ">
+        <label for="">Super Stat</label>
+        <input type="text" class="ml-3" nbInput [(ngModel)]="default_super_stat_cities  "  />
+      </div>
+      <div class="city d-flex align-items-center  justify-content-between ml-5 mr-3 ">
+        <label for="">Next Day</label>
+        <input type="text" class="ml-3" nbInput [(ngModel)]="default_next_day_cities  "  />
+      </div>
+     </div>
+    </nb-card-body>
+    <nb-card-footer class="button-group">
+      <button nbButton (click)="ref.close()">Cancel</button>
+      <button nbButton status="danger" class="ml-3" (click)=" updatePostal();ref.close()">Update Prices</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

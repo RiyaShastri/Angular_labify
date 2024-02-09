@@ -1,0 +1,54 @@
+label {
+  // display: block;
+  font-weight: bold;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: stretch;
+
+  .input-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    align-items: stretch;
+
+    .input {
+      flex: 1;
+      min-width: 200px;
+
+      input {
+        max-width: unset;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.caption.status-danger {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+  flex-wrap: wrap;
+}
+
+.alert {
+  border: 1px solid #f1aeb5;
+  background-color: #f8d7da;
+  color: #58151c;
+  // font-weight: bold;
+  margin: 1rem 0;
+}
+
+nb-card {
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+}

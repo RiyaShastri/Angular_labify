@@ -1,0 +1,47 @@
+$white: #ffffff;
+$light-1: #f9f9f9;
+$light-2: #f1f1f1;
+$light-3: #e6e6e6;
+
+$gray-1: #777777;
+$gray-2: #737373;
+$gray-3: #404040;
+$gray-4: #171717;
+$black: #000000;
+
+$light-blue: #e6e9ee;
+$blue-1: #252b42;
+$blue-2: #082753;
+$blue-3: #0a2640;
+
+$green: #00a962;
+$light-green: #e9f1ee;
+$red: #eb3131;
+$cyan: #09a4d8;
+
+$colors: (
+  white: $white,
+  light-1: $light-1,
+  light-2: $light-2,
+  light-3: $light-3,
+  gray-1: $gray-1,
+  gray-2: $gray-2,
+  gray-3: $gray-3,
+  gray-4: $gray-4,
+  black: $black,
+  light-blue: $light-blue,
+  blue-1: $blue-1,
+  blue-2: $blue-2,
+  blue-3: $blue-3,
+  green: $green,
+  light-green: $light-green,
+  red: $red,
+  cyan: $cyan,
+);
+
+$gradient-1: linear-gradient(135deg, #082753 0%, #184e94 100%);
+$gradient-2: linear-gradient(
+  90deg,
+  rgba(0, 169, 98, 0.2) 0%,
+  rgba(0, 169, 98, 0) 100%
+);

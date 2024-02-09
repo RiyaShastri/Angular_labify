@@ -1,0 +1,54 @@
+<div class="d-flex">
+  <div class="d-none d-lg-block flex-2">
+    <img
+      src="../../../../../assets/img/login.png"
+      alt=""
+      class="w-100 h-100 object-fit-cover"
+    />
+  </div>
+  <div
+    class="py-5 px-4 px-lg-5 flex-3 d-flex flex-column justify-content-center"
+  >
+    <h1 class="text-blue-2 fw-semibold fs-3">We Sent A Reset Code To You</h1>
+    <p class="text-gray-4">Check your email and find the code</p>
+
+    <form
+      [formGroup]="forgetPasswordForm"
+      (ngSubmit)="onSubmit()"
+      class="d-flex flex-column gap-4 mt-5"
+    >
+      <div class="input-group d-flex align-items-start flex-column gap-2">
+        <label for="code" class="fw-semibold">Reset Code</label>
+        <input
+          type="text"
+          class="form-control w-100"
+          id="code"
+          placeholder="Code"
+          formControlName="code"
+          [ngClass]="{
+            'is-valid': isFieldValid('code'),
+            'is-invalid': isFieldInvalid('code')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('code')">
+          Reset code must be a number of 5 digits
+        </div>
+      </div>
+
+      <button
+        [loadingSpinner]="loading"
+        type="submit"
+        class="btn bg-blue-2 mt-5 p-3 w-100 w-md-50 align-self-center text-white fw-semibold"
+      >
+        Check Code
+      </button>
+    </form>
+
+    <p class="text-center mt-3">
+      Not your email?
+      <button class="btn p-0 text-green" (click)="forgetPassword()" type="button">
+        Edit email
+      </button>
+    </p>
+  </div>
+</div>

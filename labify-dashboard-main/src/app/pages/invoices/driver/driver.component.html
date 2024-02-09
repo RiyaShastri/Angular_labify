@@ -1,0 +1,169 @@
+<nb-card>
+  <nb-card-header>
+    <div class="d-flex align-items-center justify-content-between">
+      <h6 class="d-inline">Driver Invoice</h6>
+      <div class="d-flex align-items-center">
+        <label for="" class="mr-2"
+          >Select Driver <span class="required">(Required)</span></label
+        >
+
+        <nb-select
+          [nbSpinner]="loading"
+          [selected]="selectedDriverId"
+          (selectedChange)="onDriverSelect($event)"
+          status="primary"
+          style="min-width: 250px"
+        >
+          <nb-option *ngFor="let driver of allDrivers" [value]="driver.id">
+            {{ driver.name }}</nb-option
+          >
+        </nb-select>
+      </div>
+    </div>
+    <form [formGroup]="searchForm" class="mb-3">
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <div>
+              <label for="fromDate">From :</label>
+              <input
+                nbInput
+                placeholder="mm/dd/yyyy"
+                [nbDatepicker]="fromDatePicker"
+                formControlName="Date_from"
+                id="fromDate"
+              />
+              <nb-datepicker #fromDatePicker></nb-datepicker>
+            </div>
+          </div>
+          <div class="input">
+            <div>
+              <label for="toDate">To :</label>
+              <input
+                nbInput
+                placeholder="mm/dd/yyyy"
+                [nbDatepicker]="toDatePicker"
+                formControlName="Date_to"
+                id="toDate"
+              />
+              <nb-datepicker #toDatePicker></nb-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            nbButton
+            (click)="onSubmit()"
+            class="mr-3"
+            [nbSpinner]="isLoading"
+          >
+            Submit
+          </button>
+          <button nbButton (click)="resetSearch()">Reset</button>
+        </div>
+      </div>
+    </form>
+  </nb-card-header>
+  <nb-card-body>
+    <!-- (onLazyLoad)="getOrders(null,null,$event)" -->
+    <div class="d-flex justify-content-end">
+      <button nbButton status="success" [nbSpinner]="isLoading" *ngIf="isLink">
+        Download invoices
+      </button>
+    </div>
+    <p-table
+      #dt2
+      itemKey="id"
+      [value]="data"
+      [paginator]="true"
+      [first]="first"
+      [rows]="15"
+      [showCurrentPageReport]="true"
+      styleClass="p-itemtable-gridlines"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [totalRecords]="totalRecords"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [lazy]="true"
+      (onLazyLoad)="getInvoice(null, $event)"
+      *ngIf="data?.length > 0; else noitem"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">Date</th>
+          <th>Job Order #</th>
+          <th>type_work</th>
+
+          <th>Service Detail Pick Up</th>
+          <th>Service Detail Drop Up</th>
+          <th>Description</th>
+          <th>price</th>
+          <th class="text-center">Line Total</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td class="text-center">{{ item.date }}</td>
+          <td>{{ item.job_order }}</td>
+          <td>{{ item.type_work }}</td>
+
+          <td>{{ item.service_detail_pickup }}</td>
+          <td>{{ item.service_detail_dropoff }}</td>
+          <td>
+            <ul>
+              <li *ngIf="item.price_daily !== '0.00'">price_daily</li>
+              <li *ngIf="item.price_hourly !== '0.00'">price_hourly</li>
+              <li *ngIf="item.price_mile !== '0.00'">price_mile</li>
+            </ul>
+          </td>
+          <td>{{item.price}}</td>
+          <td>
+            <ul>
+              <li *ngIf="item.price_daily !== '0.00'">
+                ${{ item.price_daily }}
+              </li>
+              <li *ngIf="item.price_hourly !== '0.00'">
+                ${{ item.price_hourly }}
+              </li>
+              <li *ngIf="item.price_mile !== '0.00'">${{ item.price_mile }}</li>
+            </ul>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="paginatorfirstpagelinkicon">
+        <p-button
+          type="button"
+          icon="pi pi-angle-double-left"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorpreviouspagelinkicon">
+        <p-button
+          type="button"
+          icon="pi pi-angle-left"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatornextpagelinkicon">
+        <p-button
+          type="button"
+          icon="pi pi-angle-right"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorlastpagelinkicon">
+        <p-button
+          type="button"
+          icon="pi pi-angle-double-right"
+          styleClass="p-button-text"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <h6>Total : {{ total }}</h6>
+      </ng-template>
+    </p-table>
+    <ng-template #noitem>
+      <p class="bg- width-100 p-3">There is No invoices</p>
+    </ng-template>
+  </nb-card-body>
+</nb-card>

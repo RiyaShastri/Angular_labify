@@ -1,0 +1,401 @@
+<form
+  [formGroup]="driverForm"
+  (ngSubmit)="onSubmit()"
+  class="d-flex flex-column gap-4 mt-4"
+>
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-fn" class="text-uppercase fw-semibold"
+            >First Name</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="driver-fn"
+              formControlName="first_name"
+              [ngClass]="{
+                'is-valid': isFieldValid('first_name'),
+                'is-invalid': isFieldInvalid('first_name')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('first_name')">
+              First name is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-ln" class="text-uppercase fw-semibold"
+            >Last Name</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="driver-ln"
+              formControlName="last_name"
+              [ngClass]="{
+                'is-valid': isFieldValid('last_name'),
+                'is-invalid': isFieldInvalid('last_name')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('last_name')">
+              Last name is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group d-flex align-items-start flex-column gap-2">
+    <label for="driver-cn" class="text-uppercase fw-semibold"
+      >Company Name</label
+    >
+    <div class="d-flex flex-wrap w-100">
+      <input
+        class="form-control w-100"
+        id="driver-cn"
+        formControlName="company_name"
+        [ngClass]="{
+          'is-valid': isFieldValid('company_name'),
+          'is-invalid': isFieldInvalid('company_name')
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('company_name')">
+        Company name is invalid
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-email" class="text-uppercase fw-semibold"
+            >E-Mail</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="email"
+              class="form-control w-100"
+              id="driver-email"
+              formControlName="email"
+              [ngClass]="{
+                'is-valid': isFieldValid('email'),
+                'is-invalid': isFieldInvalid('email')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+              Email is invalid
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-phone" class="text-uppercase fw-semibold"
+            >Phone Number</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="tel"
+              class="form-control flex-1"
+              id="driver-phone"
+              formControlName="phone"
+              [ngClass]="{
+                'is-valid': isFieldValid('phone'),
+                'is-invalid': isFieldInvalid('phone')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+              Phone number must be 11 digits
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-address-1" class="text-uppercase fw-semibold"
+            >Address 1</label
+          >
+          <input
+            type="text"
+            class="form-control w-100"
+            id="driver-address-1"
+            formControlName="address_1"
+            [ngClass]="{
+              'is-valid': isFieldValid('address_1'),
+              'is-invalid': isFieldInvalid('address_1')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('address_1')">
+            Address 1 is required
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-address-2" class="text-uppercase fw-semibold"
+            >Address 2</label
+          >
+          <div class="d-flex gap-4 flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="driver-address-2"
+              formControlName="address_2"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-4">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-city" class="text-uppercase fw-semibold"
+            >City</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <select
+              class="form-select w-100"
+              id="driver-city"
+              formControlName="city_id"
+              [ngClass]="{
+                'is-valid': isFieldValid('city_id'),
+                'is-invalid': isFieldInvalid('city_id')
+              }"
+              #citySelect
+              (change)="onCityChange(+citySelect.value)"
+            >
+              <option [value]="city.id" *ngFor="let city of cities">
+                {{ city.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('city_id')">
+              City is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-state" class="text-uppercase fw-semibold"
+            >State</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <select
+              class="form-select flex-1"
+              id="driver-state"
+              formControlName="state_id"
+              [ngClass]="{
+                'is-valid': isFieldValid('state_id'),
+                'is-invalid': isFieldInvalid('state_id')
+              }"
+            >
+              <option *ngFor="let district of districts" [value]="district.id">
+                {{ district.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('state_id')">
+              State is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="driver-zip-code" class="text-uppercase fw-semibold"
+            >Zip code</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="driver-zip-code"
+              formControlName="postal_code"
+              [ngClass]="{
+                'is-valid': isFieldValid('postal_code'),
+                'is-invalid': isFieldInvalid('postal_code')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('postal_code')">
+              Zip code is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend class="description fw-semibold fs-6 mt-3">
+      Your Vehicle Information
+    </legend>
+
+    <div class="container-fluid p-0">
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="driver-make" class="text-uppercase fw-semibold"
+              >Vehicle Make</label
+            >
+            <div class="d-flex flex-wrap w-100">
+              <input
+                type="text"
+                class="form-control w-100"
+                id="driver-make"
+                formControlName="vehicle_make"
+                [ngClass]="{
+                  'is-valid': isFieldValid('vehicle_make'),
+                  'is-invalid': isFieldInvalid('vehicle_make')
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="isFieldInvalid('vehicle_make')"
+              >
+                Vehicle make is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="driver-model" class="text-uppercase fw-semibold"
+              >Vehicle Model</label
+            >
+            <div class="d-flex flex-wrap w-100">
+              <input
+                type="text"
+                class="form-control flex-1"
+                id="driver-model"
+                formControlName="vehicle_model"
+                [ngClass]="{
+                  'is-valid': isFieldValid('vehicle_model'),
+                  'is-invalid': isFieldInvalid('vehicle_model')
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="isFieldInvalid('vehicle_model')"
+              >
+                Vehicle model is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="driver-year" class="text-uppercase fw-semibold"
+              >Vehicle Year</label
+            >
+            <div class="d-flex flex-wrap w-100">
+              <input
+                type="text"
+                class="form-control flex-1"
+                id="driver-year"
+                formControlName="vehicle_year"
+                [ngClass]="{
+                  'is-valid': isFieldValid('vehicle_year'),
+                  'is-invalid': isFieldInvalid('vehicle_year')
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="isFieldInvalid('vehicle_year')"
+              >
+                Vehicle year is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend class="description fw-semibold fs-6 mt-3">
+      Best Time to Reach You
+    </legend>
+
+    <div class="container-fluid p-0">
+      <div class="row gy-4">
+        <div class="col-md-6">
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="driver-day" class="text-uppercase fw-semibold"
+              >Weekdays / Weekends</label
+            >
+            <div class="d-flex flex-wrap w-100">
+              <select
+                class="form-select w-100"
+                id="driver-day"
+                formControlName="weekdays_weekends"
+                [ngClass]="{
+                  'is-valid': isFieldValid('weekdays_weekends'),
+                  'is-invalid': isFieldInvalid('weekdays_weekends')
+                }"
+              >
+                <option value="weekdays">Weekdays</option>
+                <option value="weekends">Weekends</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="isFieldInvalid('weekdays_weekends')"
+              >
+                Weekdays / Weekends is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="driver-day" class="text-uppercase fw-semibold"
+              >Time</label
+            >
+            <div class="d-flex flex-wrap w-100">
+              <select
+                class="form-select w-100"
+                id="driver-day"
+                formControlName="time"
+                [ngClass]="{
+                  'is-valid': isFieldValid('time'),
+                  'is-invalid': isFieldInvalid('time')
+                }"
+              >
+                <option value="Morning">Morning</option>
+                <option value="Afternoon">Afternoon</option>
+                <option value="Evening">Evening</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('time')">
+                Time is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <button class="btn bg-blue-3 text-white">Send</button>
+</form>

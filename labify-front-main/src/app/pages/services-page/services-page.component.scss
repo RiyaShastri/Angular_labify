@@ -1,0 +1,108 @@
+@use "../../../styles/helpers" as *;
+
+@import "swiper/scss";
+@import "swiper/scss/pagination";
+
+.services-swiper-section {
+  @include screen-md {
+    .image-bg {
+      height: inherit !important;
+      background-image: url("../../../assets/img/services-bg.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+
+  .swiper-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: min-content;
+    height: min-content;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include screen-md {
+      flex-direction: column;
+      margin-left: auto;
+      gap: 0.5rem;
+      right: 1rem;
+      left: unset;
+      transform: unset;
+    }
+  }
+
+  .swiper-pagination-bullet {
+    background: $white !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: $green !important;
+    border: 3px solid rgba($white, 0.5);
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.services-section {
+  .custom-card {
+    .icon {
+      height: 80px;
+      width: 80px;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 1rem;
+
+      li {
+        color: $blue-2;
+
+        span {
+          color: $gray-2;
+        }
+      }
+    }
+
+    .btn {
+      border-radius: 5px !important;
+
+      &:hover {
+        background-image: $gradient-1;
+        color: $white !important;
+      }
+    }
+  }
+}
+
+.video-section {
+  .video-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .content {
+    background-color: rgba($blue-2, 0.5);
+  }
+}
+
+.swiper-slide {
+  margin-top: 0;
+  transition: all ease-in-out 0.3s;
+  height: auto !important;
+}
+
+.slide-section {
+  height: 100% !important;
+}

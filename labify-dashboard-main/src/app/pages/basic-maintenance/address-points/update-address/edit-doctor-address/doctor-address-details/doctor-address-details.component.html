@@ -1,0 +1,167 @@
+<div *ngIf="addressForm">
+  <form [formGroup]="addressForm">
+    <div class="input-group">
+      <div class="input">
+        <label for="name">Location Name </label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          nbInput
+          placeholder="Name"
+          [status]="isFieldInvalid('name') ? 'danger' : 'basic'"
+        />
+        <p class="caption status-danger" *ngIf="isFieldInvalid('name')">
+          Name is required!
+        </p>
+      </div>
+      <div class="input">
+        <label for="room_floor">Phone</label>
+        <input
+          id="room_floor"
+          type="text"
+          formControlName="phone"
+          nbInput
+          placeholder="Phone"
+        />
+      </div>
+      <div class="input">
+        <label for="room_floor">Ext</label>
+        <input
+          id="room_floor"
+          type="text"
+          nbInput
+          formControlName="ext"
+          placeholder="Ext"
+        />
+      </div>
+    </div>
+
+    <div class="input">
+      <label for="notes">Notes</label>
+      <textarea
+        id="notes"
+        nbInput
+        fullWidth
+        placeholder="Notes"
+        formControlName="notes"
+        [status]="isFieldInvalid('notes') ? 'danger' : 'basic'"
+      ></textarea>
+      <p class="caption status-danger" *ngIf="isFieldInvalid('notes')">
+        Notes is required!
+      </p>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input">
+        <label for="address"
+          >Address <span class="required">(Required)</span></label
+        >
+        <input
+          id="address"
+          type="text"
+          formControlName="address"
+          nbInput
+          placeholder="Address"
+          [status]="isFieldInvalid('address') ? 'danger' : 'basic'"
+        />
+        <p class="caption status-danger" *ngIf="isFieldInvalid('address')">
+          Address is required!
+        </p>
+      </div>
+      <div class="input">
+        <label for="addressLine2">Address Line 2</label>
+        <input
+          id="addressLine2"
+          type="text"
+          nbInput
+          placeholder="Address Line 2"
+          formControlName="address_2"
+        />
+      </div>
+      <div class="input">
+        <label for="suite">Suite</label>
+        <input
+          id="suite"
+          type="text"
+          nbInput
+          placeholder="Suite"
+          formControlName="suit"
+        />
+      </div>
+      <div class="input">
+        <label for="room_floor">
+          Floor <span class="required">(Required)</span></label
+        >
+        <input
+          id="room_floor"
+          type="text"
+          formControlName="room_floor"
+          nbInput
+          placeholder="Room floor"
+          [status]="isFieldInvalid('room_floor') ? 'danger' : 'basic'"
+        />
+        <p class="caption status-danger" *ngIf="isFieldInvalid('room_floor')">
+          Floor is required!
+        </p>
+      </div>
+    </div>
+  </form>
+  <div class="">
+    <div class="d-flex gap-3 flex-column flex-md-row flex-wrap">
+      <div class="flex-1 d-flex flex-column">
+        <label for="postalcode"
+          >Postal code <span class="required">(Required)</span></label
+        >
+        <input
+          id="postalcode"
+          type="text"
+          [(ngModel)]="postalCode"
+          nbInput
+          (input)="onPostalcodeChange()"
+          placeholder="Enter postal code"
+          [status]="showPostalcodeError ? 'danger' : 'basic'"
+        />
+      </div>
+      <div class="flex-1 d-flex flex-column">
+        <label for="">City</label>
+        <input
+          type="text"
+          nbInput
+          #cityInput
+          [(ngModel)]="city"
+          placeholder="Enter City"
+        />
+      </div>
+      <div class="flex-1 d-flex flex-column">
+        <label for="">State</label>
+        <input
+          type="text"
+          #stateInput
+          nbInput
+          [(ngModel)]="state"
+          placeholder="Enter State"
+        />
+      </div>
+      <!-- <button nbButton status="primary" (click)="getAddressData()">
+        Verify
+      </button> -->
+    </div>
+    <!-- <p class="caption status-danger" *ngIf="showPostalcodeError">
+      Invalid postalcode!
+    </p> -->
+  </div>
+
+  <div class="" style="margin: 1rem 0">
+    <ngx-pin-address-map
+      [pinPosition]="pinPosition"
+      (markerPositionChanged)="setPinPosition($event)"
+    ></ngx-pin-address-map>
+  </div>
+  <div class="button-group">
+    <button nbButton type="submit" (click)="goBack()">Cancel</button>
+
+    <button nbButton status="primary" type="submit" (click)="onSubmit()">
+      Save Changes
+    </button>
+  </div>
+</div>

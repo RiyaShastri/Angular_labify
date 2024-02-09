@@ -1,0 +1,70 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a class="logo d-none d-md-block" href="#" (click)="navigateHome()"
+      >Labyfi</a
+    >
+  </div>
+
+  <!-- <nb-select
+    *ngIf="companies"
+    [selected]="selectedCompanyId"
+    (selectedChange)="onCompanySelect($event)"
+    status="primary"
+    style="min-width: 250px"
+  >
+    <nb-option *ngFor="let company of companies" [value]="company.id">
+      {{ company.name }}</nb-option
+    >
+  </nb-select> -->
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+    <nb-action>
+      <button
+        class="notification-btn position-relative"
+        [nbPopover]="notificationsPopup"
+        nbPopoverPlacement="bottom"
+        (click)="notificationsActive = false"
+      >
+        <nb-icon icon="bell-outline"></nb-icon>
+        <span
+          class="new-notification-flag d-{{
+            notificationsActive ? 'inline-block' : 'none'
+          }}"
+        ></span>
+      </button>
+    </nb-action>
+    <nb-action class="user-action">
+      <nb-user
+        [nbContextMenu]="userMenu"
+        [onlyPicture]="userPictureOnly"
+        [name]="user?.name || user?.username"
+        [picture]="user?.image"
+        nbContextMenuTag="my-context-menu"
+      >
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>
+
+<ng-template #notificationsPopup>
+  <!-- nbInfiniteList
+  [threshold]="500"
+  (bottomThreshold)="loadNext()" -->
+  <nb-list style="max-height: 500px; min-width: 300px">
+    <nb-list-item
+      *ngFor="let notification of notifications"
+      class="d-flex flex-column justify-content-start align-items-start"
+    >
+      <p class="mb-2">{{ notification.title }}</p>
+      <p class="m-0">{{ notification.message }}</p>
+      <small class="text-muted mt-2 align-self-end">{{
+        notification.created_at | date : "short" : "EST"
+      }}</small>
+    </nb-list-item>
+  </nb-list>
+</ng-template>

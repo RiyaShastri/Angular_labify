@@ -1,0 +1,268 @@
+<section class="pb-5 pt-4 bg-light">
+  <div class="container">
+    <nav
+      *ngIf="products && products.length"
+      style="--bs-breadcrumb-divider: '>'"
+      aria-label="breadcrumb"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active text-blue-2" aria-current="page">
+          <span class="fw-semibold"
+            >My Cart
+            <span class="fw-normal text-gray-2"
+              >({{ products.length }}
+              {{ products.length === 1 ? "item" : "items" }})</span
+            ></span
+          >
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row gap-4 gap-md-0">
+      <div
+        *ngIf="products && products.length && !loading"
+        class="col-md-8 d-flex flex-column gap-4"
+      >
+        <div
+          [loadingSpinner]="removing && removingId === product.id"
+          class="custom-card"
+          *ngFor="let product of products"
+        >
+          <div class="d-flex gap-4 justify-content-between">
+            <div class="d-flex gap-4 flex-column flex-md-row flex-1">
+              <div class="item-img">
+                <img
+                  [src]="product.variant.image"
+                  class="h-100 w-100 object-fit-contain"
+                  alt=""
+                  style="width: 150px"
+                />
+              </div>
+
+              <div class="d-flex flex-1 flex-column justify-content-between">
+                <a
+                  routerLink="/product/{{ product.product.id }}"
+                  class="text-gray-3 align-self-start fw-semibold hover:underline"
+                >
+                  {{ product.product.name }}
+                </a>
+                <p class="text-gray-2">
+                  Color: <span>{{ product.variant.color.name }}</span>
+                </p>
+                <p class="text-gray-2">
+                  Dimension:
+                  <span>{{ product.variant.dimension.dimension }}</span>
+                </p>
+                <div class="d-flex w-100 gap-3 flex-wrap">
+                  <p class="fw-bold text-gray-4">
+                    ${{
+                      product.variant.additional_price +
+                        product.product.price_after_discount | number : "1.2-2"
+                    }}
+                  </p>
+                  <div class="d-flex flex-wrap gap-3 ms-auto">
+                    <button
+                      [swal]="deleteCartProduct"
+                      (click)="removingId = product.id"
+                      class="btn p-0 text-red fs-small"
+                    >
+                      <i class="fa-solid fa-trash-can"></i> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <app-quantity-input
+              [currentValue]="product.quantity"
+              [min]="1"
+              (quantityChange)="quantityChange($event, product)"
+            ></app-quantity-input>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8 d-flex flex-column gap-4" *ngIf="loading">
+        <div class="custom-card" *ngFor="let _ of [].constructor(3)">
+          <div class="d-flex gap-4 justify-content-between">
+            <div class="d-flex gap-4 flex-column flex-md-row flex-1">
+              <div class="item-img">
+                <ngx-skeleton-loader
+                  [theme]="{width: '120px',height: '120px', 'border-radius': '0',}"
+                ></ngx-skeleton-loader>
+              </div>
+
+              <div class="d-flex flex-1 flex-column justify-content-between">
+                <ngx-skeleton-loader
+                  [theme]="{width: '200px', 'border-radius': '0',}"
+                ></ngx-skeleton-loader>
+                <p class="text-gray-2">
+                  Color:
+                  <span
+                    ><ngx-skeleton-loader
+                      [theme]="{width: '100px', 'border-radius': '0',}"
+                    ></ngx-skeleton-loader
+                  ></span>
+                </p>
+                <p class="text-gray-2">
+                  Dimension:
+                  <span
+                    ><ngx-skeleton-loader
+                      [theme]="{width: '100px', 'border-radius': '0',}"
+                    ></ngx-skeleton-loader
+                  ></span>
+                </p>
+                <div class="d-flex w-100 gap-3 flex-wrap">
+                  <p class="fw-bold text-gray-4">
+                    <ngx-skeleton-loader
+                      [theme]="{width: '100px', 'border-radius': '0',}"
+                    ></ngx-skeleton-loader>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <app-quantity-input
+              [currentValue]="1"
+              [min]="1"
+            ></app-quantity-input>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="grandTotal" class="col-md-4">
+        <div class="custom-card">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="coupon"
+              placeholder="Coupon code"
+            />
+            <button
+              (click)="applyCoupon()"
+              [loadingSpinner]="applyingCoupon"
+              class="btn px-3 border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+            >
+              Apply
+            </button>
+          </div>
+
+          <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+          <hr />
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Subtotal</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.subtotal | number : "1.2-2" }}</span
+              >
+            </div>
+            <div
+              *ngIf="grandTotal.coupon_price"
+              class="d-flex justify-content-between"
+            >
+              <span class="fw-semibold text-gray-2">Discount</span>
+              <span class="fw-semibold text-gray-4"
+                >-${{ grandTotal.coupon_price | number : "1.2-2" }}</span
+              >
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Shipping Fee</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.shipping_price | number : "1.2-2" }}</span
+              >
+            </div>
+          </div>
+
+          <hr />
+          <div class="d-flex justify-content-between">
+            <span class="fw-bold text-gray-2">Total</span>
+            <span class="fw-bold text-gray-4"
+              >${{ grandTotal.grand_total | number : "1.2-2" }}</span
+            >
+          </div>
+        </div>
+
+        <button
+          routerLink="/order/shipping"
+          class="btn btn-primary py-3 w-100 mt-4"
+        >
+          CHECK OUT NOW ^-6
+        </button>
+      </div>
+
+      <div *ngIf="!grandTotal && loading" class="col-md-4">
+        <div class="custom-card">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Coupon code" />
+            <button
+              class="btn px-3 border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+            >
+              Apply
+            </button>
+          </div>
+
+          <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+          <hr />
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Subtotal</span>
+              <span class="fw-semibold text-gray-4"
+                ><ngx-skeleton-loader
+                  [theme]="{width: '100px', 'border-radius': '0',}"
+                ></ngx-skeleton-loader
+              ></span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Shipping Fee</span>
+              <span class="fw-semibold text-gray-4"
+                ><ngx-skeleton-loader
+                  [theme]="{width: '100px', 'border-radius': '0',}"
+                ></ngx-skeleton-loader
+              ></span>
+            </div>
+          </div>
+
+          <hr />
+          <div class="d-flex justify-content-between">
+            <span class="fw-bold text-gray-2">Total</span>
+            <span class="fw-bold text-gray-4"
+              ><ngx-skeleton-loader
+                [theme]="{width: '100px', 'border-radius': '0',}"
+              ></ngx-skeleton-loader
+            ></span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary py-3 w-100 mt-4">CHECK OUT NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!loading && (!products || !products.length)"
+    class="container py-5 d-flex flex-column gap-3 justify-content-center align-items-center"
+  >
+    <img
+      src="../../../../../assets/img/not-found.svg"
+      alt=""
+      class="w-100"
+      style="max-width: 500px"
+    />
+    <p class="text-center fs-4 text-blue-2">Your cart is empty</p>
+    <a routerLink="/market-place" class="btn bg-green text-white"
+      >Continue Shopping</a
+    >
+  </div>
+</section>
+
+<swal
+  #deleteCartProduct
+  text="Are your sure you want to remove this product from cart?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Remove'"
+  (confirm)="removeFromCart()"
+>
+</swal>

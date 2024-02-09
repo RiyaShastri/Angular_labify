@@ -1,0 +1,34 @@
+<nb-card>
+  <nb-card-header> Update Role </nb-card-header>
+
+  <nb-card-body>
+    <div class="d-flex flex-column">
+      <label for="name" class="font-weight-bold">Role name: </label>
+      <input
+        type="text"
+        [(ngModel)]="name"
+        nbInput
+        id="name"
+        placeholder="Ex: Admin"
+      />
+    </div>
+    <div class="mt-4">
+      <label for="permissions" class="font-weight-bold"
+        >Permissions for this role:
+      </label>
+      <div class="d-flex flex-column">
+        <nb-checkbox
+          *ngFor="let permission of allPermissions"
+          (checkedChange)="toggleRole(permission)"
+          [checked]="isSelected(permission.id)"
+          >{{ permission.name }}</nb-checkbox
+        >
+      </div>
+    </div>
+    <div class="d-flex mt-3">
+      <button class="ml-auto" nbButton status="primary" (click)="onSumbit()">
+        Update Role
+      </button>
+    </div>
+  </nb-card-body>
+</nb-card>

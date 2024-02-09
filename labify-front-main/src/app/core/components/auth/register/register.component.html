@@ -1,0 +1,178 @@
+<div class="d-flex">
+  <div class="d-none d-lg-block flex-2">
+    <img
+      src="../../../../../assets/img/register.png"
+      alt=""
+      class="w-100 h-100 object-fit-cover"
+    />
+  </div>
+  <div
+    class="py-5 px-4 px-lg-5 flex-3 d-flex flex-column justify-content-center"
+  >
+    <h1 class="text-blue-2 fw-semibold fs-3">Sign up For account</h1>
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="d-flex flex-column gap-4 mt-5"
+    >
+      <div class="d-flex flex-wrap align-items-start gap-4">
+        <div
+          class="input-group d-flex flex-1 align-items-start flex-column gap-2"
+        >
+          <label for="fn" class="fw-semibold">First name</label>
+          <input
+            type="text"
+            class="form-control w-100"
+            id="fn"
+            placeholder="Your first name"
+            formControlName="first_name"
+            [ngClass]="{
+              'is-valid': isFieldValid('first_name'),
+              'is-invalid': isFieldInvalid('first_name')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('first_name')">
+            First name is required
+          </div>
+        </div>
+
+        <div
+          class="input-group d-flex flex-1 align-items-start flex-column gap-2"
+        >
+          <label for="ln" class="fw-semibold">Last name</label>
+          <input
+            type="text"
+            class="form-control w-100"
+            id="ln"
+            placeholder="Your last name"
+            formControlName="last_name"
+            [ngClass]="{
+              'is-valid': isFieldValid('last_name'),
+              'is-invalid': isFieldInvalid('last_name')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('last_name')">
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap align-items-start gap-4">
+        <div class="d-flex flex-1 align-items-start flex-column gap-2">
+          <label for="email-regester" class="fw-semibold">Email</label>
+          <input
+            type="email"
+            class="form-control w-100"
+            id="email-regester"
+            placeholder="Your email"
+            formControlName="email"
+            [ngClass]="{
+              'is-valid': isFieldValid('email'),
+              'is-invalid': isFieldInvalid('email')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+            Email is invalid
+          </div>
+        </div>
+
+        <div class="d-flex flex-1 align-items-start flex-column gap-2">
+          <label for="phone" class="fw-semibold">Phone</label>
+          <input
+            type="tel"
+            class="form-control align-self-stretch w-100"
+            id="phone"
+            placeholder="Your phone"
+            formControlName="phone"
+            [ngClass]="{
+              'is-valid': isFieldValid('phone'),
+              'is-invalid': isFieldInvalid('phone')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+            Phone must be at 11 digits.
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap align-items-start gap-4">
+        <div
+          class="input-group d-flex flex-1 align-items-start flex-column gap-2"
+        >
+          <label for="password" class="fw-semibold">Password</label>
+          <input
+            type="password"
+            class="form-control align-self-stretch w-100"
+            id="password"
+            placeholder="Your password"
+            formControlName="password"
+            [ngClass]="{
+              'is-valid': isFieldValid('password'),
+              'is-invalid': isFieldInvalid('password')
+            }"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+            Password must be at least 8 char.
+          </div>
+        </div>
+
+        <div
+          class="input-group d-flex flex-1 align-items-start flex-column gap-2"
+        >
+          <label for="password-confirmation" class="fw-semibold"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control align-self-stretch w-100"
+            id="password-confirmation"
+            placeholder="Your password"
+            formControlName="password_confirmation"
+            [ngClass]="{
+              'is-valid':
+                isFieldValid('password_confirmation') &&
+                !registerForm.hasError('matchFields'),
+              'is-invalid':
+                isFieldInvalid('password_confirmation') ||
+                registerForm.hasError('matchFields')
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              isFieldInvalid('password_confirmation') ||
+              registerForm.hasError('matchFields')
+            "
+          >
+            Passwords doesn't match
+          </div>
+        </div>
+      </div>
+
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckChecked"
+        />
+        <label class="form-check-label" for="flexCheckChecked">
+          I accept all
+          <a href="" class="text-green hover:underline">terms and condition</a>
+        </label>
+      </div>
+
+      <button
+        [loadingSpinner]="loading"
+        type="submit"
+        class="btn bg-blue-2 mt-5 px-5 py-3 w-100 w-md-50 align-self-center text-white fw-semibold"
+      >
+        Sign Up
+      </button>
+    </form>
+    <p class="text-center mt-3">
+      Already have an account?
+      <button class="btn p-0 text-green" (click)="login()">Login</button>
+    </p>
+  </div>
+</div>

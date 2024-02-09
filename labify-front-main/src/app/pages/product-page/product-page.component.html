@@ -1,0 +1,304 @@
+<section *ngIf="product && !loading" class="product-section py-5">
+  <div class="container">
+    <div class="row gap-5 gap-md-0 mb-5">
+      <div class="col-md-6">
+        <div class="d-flex gap-3">
+          <div
+            class="flex-1 position-relative"
+            style="height: min(500px, 40vh)"
+          >
+            <button
+              *ngIf="product.variants.length > 3"
+              class="btn p-0 bg-light-3 text-gray-4 product-nav-btn-prev position-absolute"
+            >
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
+            <button
+              *ngIf="product.variants.length > 3"
+              class="btn p-0 bg-light-3 text-gray-4 product-nav-btn-next position-absolute"
+            >
+              <i class="fa-solid fa-arrow-down"></i>
+            </button>
+
+            <swiper style="height: inherit" [config]="productSwiperConfig">
+              <ng-template *ngFor="let variant of product.variants" swiperSlide>
+                <div
+                  [ngClass]="{
+                    'border-green':
+                      selectedVariant && selectedVariant.id === variant.id
+                  }"
+                  class="h-100 w-100 border"
+                >
+                  <img
+                    (click)="selectedVariant = variant"
+                    [src]="variant.image"
+                    [alt]="product.name + ' ' + variant.color.name"
+                    class="img-fluid h-100 w-100 object-fit-contain cursor-pointer"
+                  />
+                </div>
+              </ng-template>
+            </swiper>
+          </div>
+
+          <div class="flex-3 border" style="height: min(500px, 40vh)">
+            <img
+              [src]="selectedVariant ? selectedVariant.image : product.image"
+              [alt]="product.name"
+              class="img-fluid h-100 w-100 object-fit-contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="ps-md-3 d-flex flex-column gap-3">
+          <div class="d-flex align-items-center gap-4">
+            <span class="category rounded-pill px-3 py-2 text-blue-2">{{
+              product.category.name
+            }}</span>
+            <span class="text-gray-2">#{{ product.id }}</span>
+          </div>
+          <h3 class="text-blue-2 fw-semibold">
+            {{ product.name }}
+          </h3>
+
+          <div class="">
+            <p *ngIf="product.have_discount">
+              <span class="text-decoration-line-through text-gray-2"
+                >${{
+                  product.price + selectedVariant.additional_price
+                    | number : "1.2-2"
+                }}</span
+              >
+              <span class="text-red"
+                >({{
+                  100 -
+                    ((this.product.price_after_discount +
+                      this.selectedVariant.additional_price) /
+                      (this.product.price +
+                        this.selectedVariant.additional_price)) *
+                      100 | number : "1.0-0"
+                }}% Off)</span
+              >
+            </p>
+            <p class="text-gray-4 fs-4 fw-bold mt-1">
+              ${{
+                product.price_after_discount + selectedVariant.additional_price
+                  | number : "1.2-2"
+              }}
+            </p>
+          </div>
+
+          <div>
+            <div class="mb-3" *ngIf="selectedVariant">
+              <p class="fw-semibold mb-1">
+                COLOR:
+                <span class="fw-normal">{{ selectedVariant.color.name }}</span>
+              </p>
+              <p class="fw-semibold mb-1">
+                DIMENSION:
+                <span class="fw-normal">{{
+                  selectedVariant.dimension.dimension
+                }}</span>
+              </p>
+            </div>
+
+            <div class="d-flex gap-2">
+              <div
+                *ngFor="let variant of product.variants; let i = index"
+                class="custom-radio"
+              >
+                <input
+                  type="radio"
+                  [value]="variant"
+                  [(ngModel)]="selectedVariant"
+                  name="selected_variant"
+                  id="color-{{ i }}"
+                />
+                <label for="color-{{ i }}" class="p-1 cursor-pointer">
+                  <span
+                    class="p-1"
+                    [ngStyle]="{ backgroundColor: variant.color.code }"
+                  ></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-3 align-items-center">
+            <button
+              [loadingSpinner]="addingToCart"
+              (click)="addToCart()"
+              class="btn bg-blue-2 px-5 py-3 text-white"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gap-5 gap-md-0 pt-5">
+      <div class="col-md-6">
+        <div ngbAccordion #accordion="ngbAccordion">
+          <div ngbAccordionItem="first">
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>Description</button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  {{ product.description }}
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="ps-md-3">
+          <p class="text-blue-2 fw-semibold fs-5">Shipping and Return</p>
+
+          <ul class="d-flex flex-column gap-2 mt-4 text-gray-4">
+            <li>We deliver all over USA</li>
+            <li>
+              You have <span class="text-green">14 days</span> to return your
+              order for free, no hassle.
+            </li>
+            <li>You can pick up and return your order at any store.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="loading" class="product-section py-5">
+  <div class="container">
+    <div class="row gap-5 gap-md-0 mb-5">
+      <div class="col-md-6">
+        <div class="d-flex gap-3">
+          <div
+            class="flex-1 position-relative"
+            style="height: min(500px, 40vh)"
+          >
+            <swiper style="height: inherit" [config]="productSwiperConfig">
+              <ng-template *ngFor="let _ of [].constructor(3)" swiperSlide>
+                <div class="h-100 w-100 border">
+                  <ngx-skeleton-loader
+                    [theme]="{width: '100%', height: '100%', 'border-radius': '0',}"
+                  ></ngx-skeleton-loader>
+                </div>
+              </ng-template>
+            </swiper>
+          </div>
+
+          <div class="flex-3 border" style="height: min(500px, 40vh)">
+            <ngx-skeleton-loader
+              [theme]="{width: '100%', height: '100%', 'border-radius': '0',}"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="ps-md-3 d-flex flex-column gap-3">
+          <div class="d-flex align-items-center flex-wrap gap-4">
+            <ngx-skeleton-loader
+              [theme]="{width: '300px', height: '40px', 'border-radius': '50px',}"
+            ></ngx-skeleton-loader>
+            <span class="text-gray-2"
+              ><ngx-skeleton-loader
+                [theme]="{width: '100px', 'border-radius': '0',}"
+              ></ngx-skeleton-loader
+            ></span>
+          </div>
+          <h3 class="text-blue-2 fw-semibold">
+            <ngx-skeleton-loader
+              [theme]="{width: '300px', 'border-radius': '0',}"
+            ></ngx-skeleton-loader>
+          </h3>
+
+          <ngx-skeleton-loader
+            [theme]="{width: '100%', height: '100px', 'border-radius': '0',}"
+          ></ngx-skeleton-loader>
+
+          <div class="mt-5">
+            <ngx-skeleton-loader
+              [theme]="{width: '300px', height: '50px', 'border-radius': '0',}"
+            ></ngx-skeleton-loader>
+          </div>
+
+          <div class="d-flex gap-3 align-items-center">
+            <ngx-skeleton-loader
+              [theme]="{width: '100%', height: '50px', 'border-radius': '0',}"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gap-5 gap-md-0 pt-5">
+      <div class="col-md-6">
+        <div ngbAccordion #accordion="ngbAccordion">
+          <div ngbAccordionItem="first">
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>Description</button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template
+                  ><ngx-skeleton-loader
+                    [theme]="{width: '100%', 'border-radius': '0',}"
+                  ></ngx-skeleton-loader>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="ps-md-3">
+          <p class="text-blue-2 fw-semibold fs-5">Shipping and Return</p>
+
+          <ul class="d-flex flex-column gap-2 mt-4 text-gray-4">
+            <li>We deliver all over USA</li>
+            <li>
+              You have <span class="text-green">14 days</span> to return your
+              order for free, no hassle.
+            </li>
+            <li>You can pick up and return your order at any store.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light-1">
+  <div class="container">
+    <h2 class="title text-blue-2 fs-3 pt-3 mb-5">Similar Products</h2>
+
+    <div class="row pb-5">
+      <div
+        class="col-md-6 col-lg-4 col-xxl-3 mb-4"
+        *ngFor="let product of similarProduct"
+      >
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+
+      <ng-container *ngIf="!similarProduct">
+        <div
+          *ngFor="let _ of [].constructor(4)"
+          class="col-md-6 col-lg-4 col-xxl-3 mb-4"
+        >
+          <ngx-skeleton-loader
+            [theme]="{width: '100%', height: '350px', 'border-radius': '0',}"
+          ></ngx-skeleton-loader>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>

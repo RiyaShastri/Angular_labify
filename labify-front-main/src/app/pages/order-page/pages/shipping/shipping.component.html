@@ -1,0 +1,310 @@
+<!-- "This component contains stock logic. Currently, it is not in use, but we might consider using it in the future. -->
+<section class="pb-5 pt-4 bg-light">
+  <div class="container">
+    <nav
+      style="--bs-breadcrumb-divider: '>'"
+      aria-label="breadcrumb"
+      *ngIf="!isStock"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/order/cart" class="text-gray-3 hover:text-green"
+            >My Cart
+          </a>
+        </li>
+        <li class="breadcrumb-item active text-blue-2" aria-current="page">
+          <span class="fw-semibold">Shipping</span>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row gap-4 gap-md-0 mt-4">
+      <div class="col-md-8 d-flex flex-column">
+        <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">
+          Choose Address
+        </h3>
+
+        <div class="d-flex flex-column gap-4 flex-1">
+          <label
+            for="address-{{ i }}"
+            *ngFor="let address of addresses; let i = index"
+            class="custom-card address-radio-btn d-flex gap-4 align-items-start justify-content-start"
+          >
+            <input
+              type="radio"
+              class="form-check-input rounded-pill"
+              name="address"
+              [(ngModel)]="selectedAddress"
+              [value]="address"
+              id="address-{{ i }}"
+            />
+            <div class="">
+              <p class="text-gray-3 fw-semibold">
+                {{ address.address }}
+              </p>
+              <p class="text-gray-2 py-2">
+                {{ address.district.name }}, {{ address.district.city.name }}
+              </p>
+              <div class="d-flex gap-3">
+                <button
+                  class="btn p-0 text-green"
+                  (click)="openAddEditAddress('edit', address)"
+                >
+                  Edit
+                </button>
+                <span *ngIf="i > 0" class="border-end"></span>
+                <button
+                  (click)="deleteId = address.id"
+                  [swal]="deleteAddressPopup"
+                  *ngIf="i > 0"
+                  class="btn p-0 text-red"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </label>
+
+          <button
+            (click)="openAddEditAddress('add')"
+            class="btn border-light-3 custom-card p-5 text-uppercase"
+          >
+            <i class="fa-solid fa-plus me-2 text-green"></i> Add new address
+          </button>
+
+          <label
+            for="shipping-free"
+            class="custom-card d-flex gap-4 align-items-center justify-content-start mt-auto"
+          >
+            <input
+              type="radio"
+              class="form-check-input rounded-pill"
+              name="ddd"
+              checked
+              id="shipping-free"
+            />
+            <div class="">
+              <p class="text-gray-3 fw-semibold">
+                Delivered within 5-7 Business days
+              </p>
+              <p class="text-gray-2 pt-2">Standard Domestic Shipping Service</p>
+            </div>
+            <span class="text-blue-2 fw-semibold ms-auto">Free</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-4" *ngIf="!isStock; else stock">
+        <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">
+          Shopping cart
+        </h3>
+
+        <div class="custom-card mb-4">
+          <ng-container *ngFor="let product of products; let i = index">
+            <div class="d-flex gap-4">
+              <div class="item-img">
+                <img
+                  [src]="product.variant.image"
+                  class="object-fit-contain"
+                  style="width: 80px; height: 80px"
+                  [alt]="product.product.name"
+                />
+              </div>
+              <div class="">
+                <p class="text-gray-3 fw-semibold">
+                  {{ product.product.name }}
+                </p>
+                <p class="text-gray-2 fs-small">QTY: {{ product.quantity }}</p>
+                <p class="text-gray-2 fs-small">
+                  COLOR: {{ product.variant.color.name }}
+                </p>
+                <p class="text-gray-2 fs-small">
+                  DIMENSION:
+                  {{ product.variant.dimension.dimension }}
+                </p>
+                <p class="fw-bold text-gray-4">
+                  ${{
+                    product.product.price_after_discount +
+                      product.variant.additional_price | number : "1.2-2"
+                  }}
+                </p>
+              </div>
+            </div>
+            <hr *ngIf="i != products.length - 1" />
+          </ng-container>
+        </div>
+
+        <div *ngIf="grandTotal" class="custom-card">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="coupon"
+              placeholder="Coupon code or gift code"
+            />
+            <button
+              [loadingSpinner]="applyingCoupon"
+              (click)="applyCoupon()"
+              class="btn border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+            >
+              Apply
+            </button>
+          </div>
+
+          <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+          <hr />
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Subtotal</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.subtotal | number : "1.2-2" }}</span
+              >
+            </div>
+            <div
+              *ngIf="grandTotal.coupon_price"
+              class="d-flex justify-content-between"
+            >
+              <span class="fw-semibold text-gray-2">Discount</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.coupon_price | number : "1.2-2" }}</span
+              >
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Shipping Fee</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.shipping_price | number : "1.2-2" }}</span
+              >
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="d-flex justify-content-between">
+            <span class="fw-bold text-gray-2">Total</span>
+            <span class="fw-bold text-gray-4"
+              >${{ grandTotal.grand_total | number : "1.2-2" }}</span
+            >
+          </div>
+        </div>
+
+        <button
+          routerLink="/order/payment"
+          class="btn btn-primary py-3 w-100 mt-4"
+        >
+          Payment
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<swal
+  #deleteAddressPopup
+  text="Are your sure you want to delete this address?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Delete'"
+  (confirm)="deleteAddress()"
+>
+</swal>
+<ng-template #stock>
+  <div class="col-md-4">
+    <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">Stock cart</h3>
+
+    <div class="custom-card mb-4">
+      <ng-container *ngFor="let product of stockProducts; let i = index">
+        <div class="d-flex gap-4">
+          <div class="item-img">
+            <img
+              [src]="product.item.variant.image"
+              class="object-fit-contain"
+              style="width: 80px; height: 80px"
+              [alt]="product.item.variant.product.name"
+            />
+          </div>
+          <div class="">
+            <p class="text-gray-3 fw-semibold">
+              {{ product.item.variant.product.name }}
+            </p>
+            <p class="text-gray-2 fs-small">QTY: {{ product.quantity }}</p>
+            <p class="text-gray-2 fs-small">
+              COLOR: {{ product.item.variant.color.name }}
+            </p>
+            <p class="text-gray-2 fs-small">
+              DIMENSION:
+              {{ product.item.variant.dimension.dimension }}
+            </p>
+            <p class="fw-bold text-gray-4">
+              ${{
+                product.item.variant.product.price_after_discount +
+                  product.item.variant.additional_price | number : "1.2-2"
+              }}
+            </p>
+          </div>
+        </div>
+        <hr *ngIf="i != stockProducts.length - 1" />
+      </ng-container>
+    </div>
+
+    <div *ngIf="grandTotal" class="custom-card">
+      <!-- <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="coupon"
+              placeholder="Coupon code or gift code"
+            />
+            <button
+              [loadingSpinner]="applyingCoupon"
+              (click)="applyCoupon()"
+              class="btn border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+            >
+              Apply
+            </button>
+          </div> -->
+
+      <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+      <hr />
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex justify-content-between">
+          <span class="fw-semibold text-gray-2">Subtotal</span>
+          <span class="fw-semibold text-gray-4"
+            >${{ grandTotal.subtotal | number : "1.2-2" }}</span
+          >
+        </div>
+        <div
+          *ngIf="grandTotal.coupon_price"
+          class="d-flex justify-content-between"
+        >
+          <span class="fw-semibold text-gray-2">Discount</span>
+          <span class="fw-semibold text-gray-4"
+            >${{ grandTotal.coupon_price | number : "1.2-2" }}</span
+          >
+        </div>
+        <div class="d-flex justify-content-between">
+          <span class="fw-semibold text-gray-2">Shipping Fee</span>
+          <span class="fw-semibold text-gray-4"
+            >${{ grandTotal.shipping_price | number : "1.2-2" }}</span
+          >
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="d-flex justify-content-between">
+        <span class="fw-bold text-gray-2">Total</span>
+        <span class="fw-bold text-gray-4"
+          >${{ grandTotal.grand_total | number : "1.2-2" }}</span
+        >
+      </div>
+    </div>
+
+    <button
+      routerLink="/order/stock/payment"
+      class="btn btn-primary py-3 w-100 mt-4"
+    >
+      Payment
+    </button>
+  </div>
+</ng-template>

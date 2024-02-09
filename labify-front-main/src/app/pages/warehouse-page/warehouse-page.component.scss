@@ -1,0 +1,48 @@
+@use "../../../styles/helpers/colors" as *;
+
+@import "swiper/scss";
+@import "swiper/scss/pagination";
+
+.bg-image {
+  background-image: url("../../../assets/img/warehouse-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.warehouse-section {
+  img {
+    height: 35vh;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .swiper-wrapper {
+    align-items: center !important;
+  }
+
+  .swiper-slide {
+    transition: all ease-in-out 0.3s;
+    &.swiper-slide-next {
+      transform: scale(1.5);
+      z-index: 100;
+    }
+  }
+}
+
+.warehouse-swiper-section {
+  .swiper-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: min-content;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: $green !important;
+    border: 3px solid rgba($white, 0.5);
+    width: 15px;
+    height: 15px;
+  }
+}

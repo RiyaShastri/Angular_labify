@@ -1,0 +1,260 @@
+<nb-card
+  class="h-100 w-100 position-absolute"
+  style="top: 0; left: 0; border-radius: 0"
+>
+  <nb-card-header> Driver Details </nb-card-header>
+  <nb-card-body>
+    <p><span class="font-weight-bold">Name:</span> {{ driverData.name }}</p>
+    <p><span class="font-weight-bold">Email:</span> {{ driverData.email }}</p>
+    <p><span class="font-weight-bold">Phone: </span>{{ driverData.phone }}</p>
+    <ng-container *ngFor="let order of ordersOpenedToday">
+      <div
+        class="d-flex flex-column align-items-start py-3 border-bottom"
+        *ngIf="showOrder(order.delivery.user_id)"
+      >
+        <p>
+          <span class="font-weight-bold">Order:</span> #{{ order.order_code }}
+        </p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <p>
+                <span class="font-weight-bold">Pickup:</span>
+                {{ order.pickup.name }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Pickup Address:</span>
+                {{ order.pickup.address }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Pickup Postal Code:</span>
+                {{ order.pickup.postal_code }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Pickup Notes:</span>
+                {{ order.pickup.notes }}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <span class="font-weight-bold">Delivery:</span>
+                {{ order.delivery.name }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Delivery Address:</span>
+                {{ order.delivery.address }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Delivery Postal Code:</span>
+                {{ order.delivery.postal_code }}
+              </p>
+              <p>
+                <span class="font-weight-bold">Delivery Notes:</span>
+                {{ order.delivery.notes }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!loggedAsCompany" class="pl-3 d-flex gap-2">
+          <button
+            (click)="unassignDriver(order.id)"
+            [nbSpinner]="unassigningOrderId === order.id"
+            nbButton
+            status="primary"
+          >
+            Unassign
+          </button>
+
+          <button
+            (click)="openAssignDriverDialog(assignDriverDialog, order.id)"
+            nbButton
+            status="primary"
+          >
+            Reassign
+          </button>
+        </div>
+      </div>
+    </ng-container>
+    <nb-accordion multi>
+      <nb-accordion-item>
+        <nb-accordion-item-header class="bg-light">
+          Closed Today
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <ng-container *ngFor="let order of ordersClosedToday">
+            <div
+              class="d-flex flex-column align-items-start py-3 border-bottom"
+              *ngIf="showOrder(order.delivery.user_id)"
+            >
+              <p>
+                <span class="font-weight-bold px-3">Order:</span> #{{
+                  order.order_code
+                }}
+              </p>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>
+                      <span class="font-weight-bold">Pickup:</span>
+                      {{ order.pickup.name }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Address:</span>
+                      {{ order.pickup.address }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Postal Code:</span>
+                      {{ order.pickup.postal_code }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Notes:</span>
+                      {{ order.pickup.notes }}
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p>
+                      <span class="font-weight-bold">Delivery:</span>
+                      {{ order.delivery.name }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Delivery Address:</span>
+                      {{ order.delivery.address }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold"
+                        >Delivery Postal Code:</span
+                      >
+                      {{ order.delivery.postal_code }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Delivery Notes:</span>
+                      {{ order.delivery.notes }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <p
+            *ngIf="!loading && !ordersClosedToday?.length"
+            class="p-3 text-center"
+          >
+            No orders found
+          </p>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+      <nb-accordion-item>
+        <nb-accordion-item-header class="bg-light">
+          Closed Yesterday
+        </nb-accordion-item-header>
+        <nb-accordion-item-body [nbSpinner]="loading">
+          <ng-container *ngFor="let order of yesterdayOrders">
+            <div
+              class="d-flex flex-column align-items-start py-3 border-bottom"
+              *ngIf="showOrder(order.delivery.user_id)"
+            >
+              <p>
+                <span class="font-weight-bold px-3">Order:</span> #{{
+                  order.order_code
+                }}
+              </p>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>
+                      <span class="font-weight-bold">Pickup:</span>
+                      {{ order.pickup.name }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Address:</span>
+                      {{ order.pickup.address }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Postal Code:</span>
+                      {{ order.pickup.postal_code }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Pickup Notes:</span>
+                      {{ order.pickup.notes }}
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p>
+                      <span class="font-weight-bold">Delivery:</span>
+                      {{ order.delivery.name }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Delivery Address:</span>
+                      {{ order.delivery.address }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold"
+                        >Delivery Postal Code:</span
+                      >
+                      {{ order.delivery.postal_code }}
+                    </p>
+                    <p>
+                      <span class="font-weight-bold">Delivery Notes:</span>
+                      {{ order.delivery.notes }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <p
+            *ngIf="!loading && !yesterdayOrders?.length"
+            class="p-3 text-center"
+          >
+            No orders found
+          </p>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #assignDriverDialog let-dialog let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Select driver to assign this order</nb-card-header>
+    <nb-card-body class="d-flex align-items-center">
+      <input
+        #autoInput
+        nbInput
+        type="text"
+        class="w-100"
+        (input)="onDriverChange()"
+        placeholder="Select Driver"
+        [value]="selectedDriver?.name"
+        [nbAutocomplete]="autoDriver"
+      />
+
+      <nb-autocomplete
+        #autoDriver
+        (selectedChange)="onDriverSelectionChange($event)"
+      >
+        <nb-option
+          *ngFor="let option of filteredDrivers$ | async"
+          [value]="option"
+        >
+          {{ option.name }}
+        </nb-option>
+      </nb-autocomplete>
+    </nb-card-body>
+
+    <nb-card-footer class="button-group">
+      <button nbButton class="mr-2" (click)="ref.close()">Cancel</button>
+      <button
+        nbButton
+        [nbSpinner]="assignDriverLoading"
+        nbSpinnerStatus="basic"
+        [disabled]="assignDriverLoading"
+        status="primary"
+        type="submit"
+        (click)="onDriverSelected()"
+      >
+        Assign Driver
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

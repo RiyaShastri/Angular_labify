@@ -1,0 +1,10 @@
+<ngb-toast
+  *ngFor="let toast of toasterService.toasts"
+  [class]="toast.classname + ' cursor-pointer'"
+  [autohide]="true"
+  [delay]="toast.delay"
+  (click)="toasterService.remove(toast)"
+  (hidden)="toasterService.remove(toast)"
+>
+  {{ toast.text }}
+</ngb-toast>

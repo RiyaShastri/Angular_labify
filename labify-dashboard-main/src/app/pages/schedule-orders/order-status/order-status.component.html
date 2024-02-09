@@ -1,0 +1,137 @@
+<nb-card>
+  <nb-card-header>
+    <div class="">
+      <!-- <a nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </a> -->
+      Order Status
+    </div>
+
+  </nb-card-header>
+  <nb-card-body *ngIf="allOrder?.pickup_status else noData">
+    <div class="pickedup">
+      <h5>
+        Pickup Details :
+      </h5>
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Reference Number</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status.refrence" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Bol</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status.bol" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Order Type</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.order_type || 'None'" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status.pickup_pieces" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Weight</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status.weight" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Signatory</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status.signatory" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Driver Name</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.driver_name" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.pickup_status_created" readonly>
+          </div>
+        </div>
+        <h6>Photos :</h6>
+        <ngx-image-slider [imgList]="allOrder.pickup_status.image_orders"></ngx-image-slider>
+
+      </div>
+    </div>
+    <div class="delivery">
+      <h5>
+        Delivery Status Details :
+      </h5>
+      <div class="inputs" *ngIf="allOrder.delivery_status else status">
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Reference Number</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status.refrence" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Bol</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status.bol" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Order Type</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.order_type || 'None'" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status.pickup_pieces" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Weight</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status.weight" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Signatory</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status.signatory" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Driver Name</label>
+            <input type="text" class=" " nbInput [value]="allOrder?.driver_name" readonly>
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input type="text" class=" " nbInput [value]="allOrder?.delivery_status_created" readonly>
+          </div>
+        </div>
+        <h6>Photos :</h6>
+        <ngx-image-slider [imgList]="allOrder.delivery_status.image_orders"></ngx-image-slider>
+
+      </div>
+      <ng-template #status>
+        Delivery status has not been updated yet.
+      </ng-template>
+    </div>
+  </nb-card-body>
+  <ng-template #noData>
+    <nb-card-body>
+      status has not been updated yet.
+    </nb-card-body>
+  </ng-template>
+</nb-card>

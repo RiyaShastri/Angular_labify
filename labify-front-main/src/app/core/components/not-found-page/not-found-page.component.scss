@@ -1,0 +1,14 @@
+@use "../../../../styles/helpers" as *;
+
+.row {
+  @include screen-md {
+    background-image: url("../../../../assets/img/section-2-bg.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    .col-md-6:last-child {
+      padding: 5rem;
+    }
+  }
+}

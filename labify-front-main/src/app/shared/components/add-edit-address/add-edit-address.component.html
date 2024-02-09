@@ -1,0 +1,84 @@
+<div class="p-4">
+  <h3 class="text-blue-2 fs-5 fw-semibold pb-3">
+    {{ currentState === "add" ? "Add new" : "Edit" }} Address
+  </h3>
+
+  <form class="d-flex gap-3 flex-column">
+    <div class="">
+      <label for="city-name" class="pb-1 fw-semibold text-gray-3">City</label>
+      <select
+        [(ngModel)]="cityId"
+        name="city_id"
+        (change)="onCitySelect()"
+        id="city-name"
+        class="form-select"
+      >
+        <option *ngFor="let city of allCities" [value]="city.id">
+          {{ city.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="">
+      <label for="city-name" class="pb-1 fw-semibold text-gray-3"
+        >District</label
+      >
+      <select
+        [(ngModel)]="districtId"
+        name="district_id"
+        id="city-name"
+        class="form-select"
+      >
+        <option *ngFor="let district of allDistricts" [value]="district.id">
+          {{ district.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="">
+      <label for="address-name" class="pb-1 fw-semibold text-gray-3"
+        >Address</label
+      >
+      <input
+        type="text"
+        [(ngModel)]="address"
+        name="address"
+        id="address-name"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': showFormValidation && !address
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="showFormValidation && !address">
+        Address is required
+      </div>
+    </div>
+
+    <div class="">
+      <label for="postalcode" class="pb-1 fw-semibold text-gray-3"
+        >Postal code</label
+      >
+      <input
+        type="text"
+        id="postalcode"
+        [(ngModel)]="postalCode"
+        name="postal_code"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': showFormValidation && !postalCode
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="showFormValidation && !postalCode">
+        Postal code is required
+      </div>
+    </div>
+
+    <button
+      [loadingSpinner]="loading"
+      class="btn btn-primary py-3 fw-semibold"
+      (click)="onSubmit()"
+    >
+      {{ currentState === "add" ? "Save " : "Edit " }} Address
+    </button>
+  </form>
+</div>

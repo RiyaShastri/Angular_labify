@@ -1,0 +1,47 @@
+<nb-card>
+  <nb-card-header>
+    <div class="d-flex align-items-center justify-content-between">
+      <h6 class="d-inline">Client Addresses</h6>
+
+      <!-- <nb-select
+        *ngIf="role !== 'company'"
+        [nbSpinner]="!allCompanies"
+        [selected]="selectedCompanyId"
+        (selectedChange)="onCompanySelect($event)"
+        status="primary"
+        style="min-width: 250px"
+      >
+        <nb-option *ngFor="let company of allCompanies" [value]="company.id">
+          {{ company.name }}</nb-option
+        >
+      </nb-select> -->
+    </div>
+  </nb-card-header>
+
+  <nb-card-body [nbSpinner]="loading">
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (delete)="confirmDeleteAddress($event, confirmDialog)"
+      (edit)="editAddress($event)"
+      (create)="storeNewAddress()"
+    >
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #confirmDialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Delete Address!</nb-card-header>
+    <nb-card-body>
+      All orders with this address will be deleted!<br>
+
+      Are you sure you want to delete this address?</nb-card-body>
+    <nb-card-footer class="button-group">
+      <button nbButton (click)="ref.close()">Cancel</button>
+      <button nbButton status="danger" (click)="ref.close(); deleteAddress()">
+        Delete
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

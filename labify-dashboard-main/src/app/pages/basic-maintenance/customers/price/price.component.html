@@ -1,0 +1,156 @@
+<nb-card>
+  <nb-card-header>
+    <a [routerLink]="['/basic-maintenance/customers']"  class="mr-2" nbButton>
+      <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+    </a>
+    <span>Price</span>
+    <button class="btn btn-success ml-3 float-right"  (click)="navigateSurcharge()">Surcharge
+      Table</button>
+
+    <button class="btn btn-info float-right" *ngIf="!editeMode" (click)="updatePrice()">Update Price</button>
+    <!-- <button class="btn btn-info float-right" *ngIf="!isFound" (click)="createPrice()">Create Price</button> -->
+
+  </nb-card-header>
+  <nb-card-body >
+    <div id="table" class="table-editable my-3" *ngIf="price_type==='city'">
+      <table class="table table-bordered table-responsive-md  text-center">
+        <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">City</th>
+            <th class="text-center">Regular </th>
+            <th class="text-center">STAT </th>
+            <th class="text-center">Super STAT </th>
+            <th class="text-center">Next Day </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of pricesList;let i=index">
+            <td class="pt-3-half">{{item.id}}</td>
+            <td class="pt-3-half">{{item.city}}</td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]=item.reqular_cities
+                [disabled]="!editeMode" (input)="onPriceRegularChange(item, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]=item.stat_cities
+                [disabled]="!editeMode" (input)="onPriceSTATChange(item, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]=item.super_stat_cities
+                [disabled]="!editeMode" (input)="onPriceSuperSTATChange(item,$event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]=item.next_day_cities
+                [disabled]="!editeMode" (input)="onPriceNextDayChange(item,$event)"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="btn btn-info float-right" *ngIf="editeMode" (click)="submitCityPrice()">Save Changes</button>
+
+    </div>
+    <div id="mile_table" class="table-editable my-3" *ngIf="price_type==='mile'">
+
+      <table class="table table-bordered table-responsive-md  text-center">
+        <thead>
+          <tr>
+            <th class="text-center">Mile</th>
+            <th class="text-center">Regular </th>
+            <th class="text-center">STAT </th>
+            <th class="text-center">Super STAT </th>
+            <th class="text-center">Next Day </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let price of milePrices">
+            <td class="pt-3-half">price</td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="price.reqular_miles"
+              [disabled]="!editeMode" (input)="onPriceRegularChange(price, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="price.stat_miles"
+              [disabled]="!editeMode" (input)="onPriceSTATChange(price, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="price.super_stat_miles"
+              [disabled]="!editeMode" (input)="onPriceSuperSTATChange(price,$event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="price.next_day_miles"
+              [disabled]="!editeMode" (input)="onPriceNextDayChange(price,$event)"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-info float-right" *ngIf="editeMode" (click)="submitMilePrice()">Save Changes</button>
+
+    </div>
+  </nb-card-body>
+  <!-- <nb-card-body *ngIf="create">
+    <div class="box d-flex justify-content-between align-items-center mb-2">
+      <div class="item d-flex align-items-center">
+        <label for="price_type" class="form-label">Select Price Type:</label>
+        <select id="price_type" class="form-control w-50" placeholder="Select Type" [(ngModel)]="selectedPriceType"
+          (ngModelChange)="onPriceTypeChange($event)">
+          <option value="" class="text-black" disabled selected hidden>Select Price Type</option>
+          <option value="city">City</option>
+          <option value="mile">Mile</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="" *ngIf="selectedPriceType==='city'">
+      <table class="table table-bordered table-responsive-md  text-center"  >
+        <thead>
+          <tr>
+            <th class="text-center">Postal Code</th>
+            <th class="text-center">City</th>
+            <th class="text-center">Regular </th>
+            <th class="text-center">STAT </th>
+            <th class="text-center">Super STAT </th>
+            <th class="text-center">Next Day </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let city of cities;let i = index">
+            <td class="pt-3-half">{{city.postal_code}}</td>
+            <td class="pt-3-half">{{city.city}}</td>
+            <td class="pt-3-half"><input type="text" class="form-control" placeholder="Enter" [value]="0"
+                (input)="onPriceRegularCreate(i,$event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" placeholder="Enter" [value]="0"
+                (input)="onPriceSTATCreate(i, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" placeholder="Enter" [value]="0"
+                (input)="onPriceSuperSTATCreate(i, $event)"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" placeholder="Enter" [value]="0"
+                (input)="onPriceNextDayCreate(i, $event)"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-info float-right" *ngIf="create" (click)="submitCityPrice()"
+        [disabled]="priceRegular.length !== postalCodes.length">Save Changes</button>
+
+    </div>
+    <div id="mile_table" class="table-editable my-3" *ngIf="selectedPriceType==='mile'">
+
+      <table class="table table-bordered table-responsive-md  text-center">
+        <thead>
+          <tr>
+            <th class="text-center">Mile</th>
+            <th class="text-center">Regular </th>
+            <th class="text-center">STAT </th>
+            <th class="text-center">Super STAT </th>
+            <th class="text-center">Next Day </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pt-3-half">Mile</td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="0" [(ngModel)]="priceRegularMiles">
+            </td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="0" [(ngModel)]="priceSTATMiles"></td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="0" [(ngModel)]="priceSuperSTATMiles">
+            </td>
+            <td class="pt-3-half"><input type="text" class="form-control" [value]="0" [(ngModel)]="priceNextDayMiles">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-info float-right" *ngIf="create" (click)="submitMilePrice()"
+        [disabled]="!(priceRegularMiles && priceSTATMiles && priceSuperSTATMiles && priceNextDayMiles)">Save
+        Changes</button>
+
+    </div>
+  </nb-card-body> -->
+
+</nb-card>

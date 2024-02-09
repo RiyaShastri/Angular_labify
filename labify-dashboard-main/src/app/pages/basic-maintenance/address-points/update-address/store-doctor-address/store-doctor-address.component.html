@@ -1,0 +1,217 @@
+<nb-card>
+  <nb-card-header>
+    <div style="display: flex; gap: 0.5rem; align-items: center">
+      <!-- <a routerLink="../addresses" nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </a> -->
+      <span>Create New Doctor Addresses</span>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="addressForm">
+      <div class="input-group">
+        <div class="input">
+          <label for="name"
+            >Location Name <span class="required">(Required)</span></label
+          >
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            nbInput
+            placeholder="Name"
+            [status]="
+              isFieldTouched('name')
+                ? isFieldValid('name')
+                  ? 'success'
+                  : 'danger'
+                : 'basic'
+            "
+          />
+          <p class="caption status-danger" *ngIf="isFieldInvalid('name')">
+            Name is required!
+          </p>
+        </div>
+        <div class="input">
+          <label for="room_floor">Phone</label>
+          <input
+            id="room_floor"
+            type="text"
+            nbInput
+            placeholder="Phone"
+            formControlName="phone"
+          />
+        </div>
+        <div class="input">
+          <label for="room_floor">Ext</label>
+          <input
+            id="room_floor"
+            type="text"
+            nbInput
+            placeholder="Ext"
+            formControlName="ext"
+          />
+        </div>
+      </div>
+      <div class="input">
+        <label for="notes">Notes</label>
+        <textarea
+          id="notes"
+          nbInput
+          fullWidth
+          placeholder="Notes"
+          formControlName="notes"
+          [status]="
+            isFieldTouched('notes')
+              ? isFieldValid('notes')
+                ? 'success'
+                : 'danger'
+              : 'basic'
+          "
+        ></textarea>
+      </div>
+      <div class="input-group mb-3">
+        <div class="input">
+          <label for="address"
+            >Address Line 1<span class="required">(Required)</span></label
+          >
+          <!-- <input
+            id="address"
+            type="text"
+            formControlName="address"
+            nbInput
+            placeholder="Address"
+            [status]="
+              isFieldTouched('address')
+                ? isFieldValid('address')
+                  ? 'success'
+                  : 'danger'
+                : 'basic'
+            "
+          /> -->
+          <!-- <input class="input"
+          placeholder="test"
+      [value]='address'
+        nbInput
+        type="text"
+        [(ngModel)]="autocompleteInput"
+        #addresstext
+        style="width: 100%;"
+
+        > -->
+          <AutocompleteComponent
+            (setAddress)="handleAddressChange($event)"
+            class="auto-fill"
+            adressType="geocode"
+          >
+          </AutocompleteComponent>
+          <p class="caption status-danger" *ngIf="isFieldInvalid('address')">
+            Address is required!
+          </p>
+        </div>
+        <div class="input">
+          <label for="addressLine2">Address Line 2</label>
+          <input
+            id="addressLine2"
+            type="text"
+            nbInput
+            placeholder="Address Line 2"
+            formControlName="address_2"
+          />
+        </div>
+        <div class="input">
+          <label for="suite">Suite</label>
+          <input
+            id="suite"
+            type="text"
+            nbInput
+            placeholder="Suite"
+            formControlName="suit"
+          />
+        </div>
+        <div class="input">
+          <label for="room_floor">Floor</label>
+          <input
+            id="room_floor"
+            type="text"
+            formControlName="room_floor"
+            nbInput
+            placeholder="Floor"
+            [status]="
+              isFieldTouched('room_floor')
+                ? isFieldValid('room_floor')
+                  ? 'success'
+                  : 'danger'
+                : 'basic'
+            "
+          />
+          <p class="caption status-danger" *ngIf="isFieldInvalid('room_floor')">
+            Room floor is required!
+          </p>
+        </div>
+      </div>
+    </form>
+    <div class="">
+      <div class="d-flex flex-column gap-3 flex-lg-row">
+        <div class="flex-1 d-flex flex-column">
+          <label for="postalcode"
+            >Postal code <span class="required">(Required)</span></label
+          >
+          <input
+            id="postalcode"
+            type="text"
+            [(ngModel)]="postalCode"
+            nbInput
+            (input)="onPostalcodeChange()"
+            placeholder="Enter postal code"
+            [status]="showPostalcodeError ? 'danger' : 'basic'"
+            style="width: 100% !important; max-width: unset !important"
+          />
+        </div>
+        <!-- <button nbButton status="primary" (click)="getAddressData()">
+          Verify
+        </button> -->
+        <div class="flex-1 d-flex flex-column">
+          <label for="">City</label>
+          <input type="text" class="w-100" nbInput [(ngModel)]="city" />
+        </div>
+        <div class="flex-1 d-flex flex-column">
+          <label for="">State</label>
+          <input type="text" class="w-100" nbInput [(ngModel)]="state" />
+        </div>
+      </div>
+      <p class="caption status-danger" *ngIf="showPostalcodeError">
+        Invalid postal code!
+      </p>
+    </div>
+
+    <!-- <p *ngIf="showPostalCodeAlert" class="alert">
+      Please verify the postal code to add your address
+    </p> -->
+    <div class="mx-5" style="margin: 1rem 0">
+      <ngx-pin-address-map
+        *ngIf="postalCodeAdded"
+        [pinPosition]="pinPosition"
+        (markerPositionChanged)="setPinPosition($event)"
+      >
+      </ngx-pin-address-map>
+    </div>
+    <!-- <div class="postalcode-input-group">
+      <div class="city d-flex align-items-center ">
+        <label for="">Account Manager</label>
+        <input type="text" class="ml-3" nbInput  />
+      </div>
+      <div class="city d-flex align-items-center ml-5">
+        <label for="">Phone Number</label>
+        <input type="text" class="ml-3" nbInput  />
+      </div>
+    </div> -->
+    <div class="button-group">
+      <button nbButton type="submit" (click)="goBack()">Cancel</button>
+
+      <button nbButton status="primary" type="submit" (click)="onSubmit()">
+        Save Address
+      </button>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,17 @@
+@use "../../../../styles/helpers/colors" as *;
+
+ul.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  h4 {
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-link:hover {
+    text-decoration: underline;
+    color: $green !important;
+  }
+}

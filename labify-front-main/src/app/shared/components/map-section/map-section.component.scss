@@ -1,0 +1,18 @@
+@use "../../../../styles/helpers/colors" as *;
+
+.map-section {
+  h2 {
+    position: relative;
+    padding-top: 1rem;
+
+    &::before {
+      content: "";
+      width: 132px;
+      height: 4px;
+      background-color: $green;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

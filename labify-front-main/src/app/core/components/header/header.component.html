@@ -1,0 +1,269 @@
+<header class="desktop-header bg-white position-sticky sticky-top z-100">
+  <div
+    class="container d-flex justify-content-between align-items-center gap-4 flex-wrap py-3"
+  >
+    <div>
+      <img src="../../../../assets/img/logo.png" alt="" />
+    </div>
+
+    <nav class="d-none d-lg-block">
+      <ul class="d-flex gap-4">
+        <li>
+          <a
+            routerLink=""
+            routerLinkActive="active"
+            (click)="scrollToTop()"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a routerLink="services" (click)="scrollToTop()" routerLinkActive="active" class="nav-link"
+            >Courier Services</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="market-place"
+            (click)="scrollToTop()"
+            routerLinkActive="active"
+            class="nav-link"
+            >Market Place</a
+          >
+        </li>
+        <li>
+          <a routerLink="warehouse" (click)="scrollToTop()" routerLinkActive="active" class="nav-link"
+            >Warehouse</a
+          >
+        </li>
+        <!-- <li>
+          <button class="nav-link btn p-0" (click)="scrollToContact()">
+            Contact
+          </button>
+        </li> -->
+        <li>
+          <a routerLink="career" (click)="scrollToTop()" routerLinkActive="active" class="nav-link"
+            >Career</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="ms-auto ms-xxl-0 d-none d-lg-flex align-items-center gap-4">
+      <div *ngIf="isLoggedIn" class="d-none d-lg-flex align-items-center gap-4">
+        <div ngbDropdown class="d-inline-block">
+          <button
+            type="button"
+            class="btn p-0"
+            id="dropdownForm1"
+            ngbDropdownToggle
+          >
+            Account
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+            <div class="px-3 py-2">
+              <p class="text-gray-1 text-nowrap">Signed in as</p>
+              <p class="text-blue-1 text-nowrap">{{ userData?.name }}</p>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a routerLink="profile" (click)="scrollToTop()" class="px-3 py-2" ngbDropdownItem
+              >Account</a
+            >
+            <a routerLink="profile/orders" (click)="scrollToTop()" class="px-3 py-2" ngbDropdownItem
+              >Orders</a
+            >
+            <a routerLink="profile/addresses" (click)="scrollToTop()" class="px-3 py-2" ngbDropdownItem
+              >Addresses</a
+            >
+            <div class="dropdown-divider"></div>
+            <button [swal]="logoutPopup" class="btn px-3 py-2 text-red">
+              Logout
+            </button>
+          </div>
+        </div>
+
+        <a
+          routerLink="order/cart"
+          routerLinkActive="cart-active"
+          (click)="login(); scrollToTop()"
+          class="btn px-0 nav-link"
+        >
+          <i class="fa-solid fa-bag-shopping text-green me-1"></i>
+          {{ cartLength + (cartLength === 1 ? " item" : " items") }}
+        </a>
+      </div>
+
+      <div class="d-none d-lg-flex gap-2">
+        <button
+          *ngIf="!isLoggedIn"
+          (click)="login()"
+          class="btn btn-primary text-uppercase"
+        >
+          Login
+        </button>
+
+        <a
+          href="https://track.labyfi.com"
+          target="_blank"
+          class="btn bg-blue-2 text-white text-uppercase"
+        >
+          Software Login
+        </a>
+      </div>
+    </div>
+    <button class="btn p-0 d-lg-none" (click)="openNav(navContent)">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<ng-template #navContent let-offcanvas>
+  <div class="offcanvas-header">
+    <div>
+      <img src="../../../../assets/img/logo.png" alt="" />
+    </div>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <nav class="">
+      <ul class="d-flex flex-column gap-4">
+        <li>
+          <a
+            routerLink=""
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+            class="nav-link"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="services"
+            routerLinkActive="active"
+            (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+            class="nav-link"
+            >Courier Services</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="market-place"
+            routerLinkActive="active"
+            (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+            class="nav-link"
+            >Market Place</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="warehouse"
+            routerLinkActive="active"
+            (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+            class="nav-link"
+            >Warehouse</a
+          >
+        </li>
+        <!-- <li>
+          <button
+            class="nav-link btn p-0"
+            (click)="
+              scrollToContactFromMobile(); offcanvas.dismiss('Cross click')
+            "
+          >
+            Contact
+          </button>
+        </li> -->
+        <li>
+          <a
+            [routerLink]="['career']"
+            class="nav-link btn p-0"
+            (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+          >
+            Career
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <ul *ngIf="isLoggedIn" class="d-flex flex-column gap-4 my-4">
+      <li>
+        <a
+          routerLink="order/cart"
+          routerLinkActive="active"
+          (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+          class="nav-link"
+          >Cart ({{ cartLength + (cartLength === 1 ? " item" : " items") }})</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="profile"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+          class="nav-link"
+          >Account</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="profile/orders"
+          routerLinkActive="active"
+          (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+          class="nav-link"
+          >Orders</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="profile/addresses"
+          routerLinkActive="active"
+          (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+          class="nav-link"
+          >Addresses</a
+        >
+      </li>
+    </ul>
+
+    <button
+      *ngIf="isLoggedIn"
+      class="btn bg-red text-white text-uppercase my-4 w-100"
+      (click)="offcanvas.dismiss('Cross click'); scrollToTop()"
+      [swal]="logoutPopup"
+    >
+      Logout
+    </button>
+
+    <button
+      *ngIf="!isLoggedIn"
+      class="btn btn-primary text-uppercase my-4 w-100"
+      (click)="login(); offcanvas.dismiss('Cross click'); scrollToTop()"
+    >
+      Login
+    </button>
+
+    <a
+      href="https://track.labyfi.com"
+      target="_blank"
+      class="btn bg-blue-2 text-white text-uppercase w-100"
+    >
+      Software Login
+    </a>
+  </div>
+</ng-template>
+
+<swal
+  #logoutPopup
+  text="Are your sure you want to logout?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Logout'"
+  (confirm)="logout()"
+>
+</swal>

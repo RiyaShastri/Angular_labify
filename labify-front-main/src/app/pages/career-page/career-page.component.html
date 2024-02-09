@@ -1,0 +1,384 @@
+<section id="career" class="py-6">
+  <div class="container">
+    <div class="row justify-content-between gap-5 gap-lg-0">
+      <div class="col-lg-4 d-flex flex-column">
+        <h3 class="fw-normal text-blue-2 lh-base description">
+          <span class="fw-bolder">Wanna join</span><br />
+          LABYFI?
+        </h3>
+
+        <p
+          class="text-gray-2 py-3 lh-base my-4 me-5"
+          style="text-align: justify"
+        >
+          LABYFI is always in search for exceptional people that share our
+          vision and our commitment to excellence to join our team. We offer the
+          right individuals an opportunity to learn, advance, and maximize their
+          potential. If you are looking to join an exceptional team , we’d love
+          to hear from you!
+        </p>
+      </div>
+      <div class="col-lg-8">
+        <h3 class="fw-normal text-blue-2 lh-base">Tell us about yourself</h3>
+
+        <form
+          [formGroup]="careerForm"
+          *ngIf="careerForm"
+          (ngSubmit)="onSubmit()"
+          class="d-flex flex-column gap-5 mt-4"
+        >
+          <div class="container-fluid p-0">
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="first-name" class="text-uppercase fw-semibold"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="first_name"
+                    class="form-control w-100"
+                    id="first-name"
+                    placeholder="Your first name"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('first_name'),
+                      'is-invalid': isFieldInvalid('first_name')
+                    }"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('first_name')"
+                  >
+                    First name is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="last-name" class="text-uppercase fw-semibold"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="last_name"
+                    class="form-control w-100"
+                    id="last-name"
+                    placeholder="Your last name"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('last_name'),
+                      'is-invalid': isFieldInvalid('last_name')
+                    }"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('last_name')"
+                  >
+                    Last name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid p-0">
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="email" class="text-uppercase fw-semibold"
+                    >E-Mail</label
+                  >
+                  <input
+                    type="email"
+                    formControlName="email"
+                    class="form-control w-100"
+                    id="email"
+                    placeholder="Your email"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('email'),
+                      'is-invalid': isFieldInvalid('email')
+                    }"
+                  />
+                  <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                    Email is invalid
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="phone-number" class="text-uppercase fw-semibold"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    formControlName="phone"
+                    class="form-control w-100"
+                    id="phone-number"
+                    placeholder="Your phone number"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('phone'),
+                      'is-invalid': isFieldInvalid('phone')
+                    }"
+                  />
+                  <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+                    Phone number must be 11 digits
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid p-0">
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="street-address" class="text-uppercase fw-semibold"
+                    >Street Address
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="street"
+                    class="form-control w-100"
+                    id="street-address"
+                    placeholder="Your street address"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('street'),
+                      'is-invalid': isFieldInvalid('street')
+                    }"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('street')"
+                  >
+                    Street address is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="country" class="text-uppercase fw-semibold"
+                    >Country / Region</label
+                  >
+                  <select
+                    type="text"
+                    class="form-select w-100"
+                    id="country"
+                    placeholder="Your country / region"
+                  >
+                    <option value="USA" selected>USA</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid p-0">
+            <div class="row gy-4">
+              <div class="col-md-4">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="city" class="text-uppercase fw-semibold"
+                    >City
+                  </label>
+                  <select
+                    type="text"
+                    class="form-select w-100"
+                    formControlName="city_id"
+                    id="city"
+                    #citySelect
+                    placeholder="Your city"
+                    (change)="getDistricts(+citySelect.value)"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('city_id'),
+                      'is-invalid': isFieldInvalid('city_id')
+                    }"
+                  >
+                    <option *ngFor="let city of cities" [value]="city.id">
+                      {{ city.name }}
+                    </option>
+                  </select>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('city_id')"
+                  >
+                    City is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="state" class="text-uppercase fw-semibold"
+                    >State / Region</label
+                  >
+                  <select
+                    type="text"
+                    class="form-select w-100"
+                    id="state"
+                    formControlName="state_id"
+                    placeholder="Your state / region"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('state_id'),
+                      'is-invalid': isFieldInvalid('state_id')
+                    }"
+                  >
+                    <option
+                      *ngFor="let district of districts"
+                      [value]="district.id"
+                    >
+                      {{ district.name }}
+                    </option>
+                  </select>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('state_id')"
+                  >
+                    State / region is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div
+                  class="input-group d-flex align-items-start flex-column gap-2"
+                >
+                  <label for="postalcode" class="text-uppercase fw-semibold"
+                    >Postal Code</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control w-100"
+                    id="postalcode"
+                    placeholder="Your postal code"
+                    formControlName="postal_code"
+                    [ngClass]="{
+                      'is-valid': isFieldValid('postal_code'),
+                      'is-invalid': isFieldInvalid('postal_code')
+                    }"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="isFieldInvalid('postal_code')"
+                  >
+                    Postal code is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend class="text-uppercase fw-semibold fs-6">Interest in</legend>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="intersted_in"
+                [value]="'Business Development'"
+                id="interest-in"
+              />
+              <label class="form-check-label" for="interest-in">
+                Business Development
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="intersted_in"
+                [value]="'Account Management'"
+                id="accound-management"
+              />
+              <label class="form-check-label" for="accound-management">
+                Account Management
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="intersted_in"
+                [value]="'Driver'"
+                id="driver"
+              />
+              <label class="form-check-label" for="driver"> Driver </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="intersted_in"
+                [value]="'Dispatching'"
+                id="dispatching"
+              />
+              <label class="form-check-label" for="dispatching">
+                Dispatching
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="intersted_in"
+                [value]="'Client Services'"
+                id="client-services"
+              />
+              <label class="form-check-label" for="client-services">
+                Client Services
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="input-group d-flex align-items-start flex-column gap-2">
+            <label for="message" class="text-uppercase fw-semibold"
+              >Message</label
+            >
+            <textarea
+              class="form-control w-100"
+              id="message"
+              formControlName="message"
+              placeholder="Your message"
+              [ngClass]="{
+                'is-valid': isFieldValid('message'),
+                'is-invalid': isFieldInvalid('message')
+              }"
+              rows="4"
+            ></textarea>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('message')">
+              Message is required
+            </div>
+          </div>
+
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [loadingSpinner]="sending"
+          >
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

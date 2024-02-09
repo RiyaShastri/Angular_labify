@@ -1,0 +1,29 @@
+<div class=" d-flex flex-column align-items-center justify-content-center position-relative box">
+
+  <div class="d-flex justify-content-between w-100 position-absolute top-50">
+    <button class="gallery-button gallery-button-prev">
+      <i class="nb-arrow-left"></i>
+    </button>
+    <button class="gallery-button gallery-button-next">
+      <i class="nb-arrow-right"></i>
+    </button>
+
+
+  </div>
+  <swiper class="w-75" [config]="gallerySwiper">
+    <ng-template swiperSlide  *ngFor="let item of imgList; let i = index">
+      <div class="image-container">
+        <img [src]="item?.images" alt="image status" class="img-fluid" />
+        <button class="delete-button" (click)="onDelete(item)">Delete</button>
+      </div>
+    </ng-template>
+  </swiper>
+
+  <div class="position-relative px-5 mt-3">
+    <span class="swiper-pagination position-relative top-0"></span>
+    <button class="gallery-button-prev btn p-0 position-absolute z-100 end-0">
+    </button>
+    <button class="gallery-button-next btn p-0 position-absolute z-100 end-0">
+    </button>
+  </div>
+</div>

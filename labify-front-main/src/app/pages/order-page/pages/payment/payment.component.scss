@@ -1,0 +1,17 @@
+@use "../../../../../styles/helpers/colors" as *;
+
+.item-img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.form-check-input.form-check-input {
+  display: block !important;
+  width: 25px !important;
+  height: 25px !important;
+  aspect-ratio: 1 !important;
+}
+
+.address-radio-btn:has(> input[type="radio"]:checked) {
+  border: 1px solid $green;
+}

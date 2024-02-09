@@ -1,0 +1,66 @@
+@use "themes" as *;
+
+@use "@nebular/theme/styles/globals" as *;
+
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+@import "node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "primeicons/primeicons.css";
+
+.required {
+  font-size: 0.75rem;
+  color: #dc3545;
+}
+
+.ngx-pagination.ng-star-inserted {
+  padding: 0 !important;
+  margin: 1rem 0 !important;
+}
+
+// utilities
+.flex-1 {
+  flex: 1;
+}
+
+@mixin gap-mixin {
+  $spacer: 1rem;
+
+  @each $size,
+    $value
+      in (
+        "1": $spacer * 0.25,
+        "2": $spacer * 0.5,
+        "3": $spacer,
+        "4": $spacer * 1.5,
+        "5": $spacer * 3
+      )
+  {
+    .gap-#{$size} {
+      gap: $value;
+    }
+
+    .row-gap-#{$size} {
+      row-gap: $value;
+    }
+
+    .col-gap-#{$size} {
+      column-gap: $value;
+    }
+  }
+}
+
+@include gap-mixin;
+
+
+// reset
+
+input {
+  max-width: unset !important;
+}
+
+.layout {
+  min-width: unset !important;
+  overflow: hidden;
+}

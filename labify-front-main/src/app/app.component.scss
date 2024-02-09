@@ -1,0 +1,16 @@
+.blur {
+  filter: blur(1.5px);
+}
+
+#go-to-top-btn {
+  position: fixed;
+  inset-inline-end: 2rem;
+  bottom: 2rem;
+  z-index: 100;
+  transform: scale(0);
+  transition: all ease-in-out 0.2s;
+
+  &.show {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,220 @@
+<nb-card>
+  <nb-card-header class="d-flex gap-3 flex-wrap">
+    <h2 class="">All Orders</h2>
+    <div class="d-flex gap-3 flex-wrap ml-auto">
+      <a class="btn btn-info" [href]="fileUrl" download="data.xlsx"
+        >Export Order</a
+      >
+      <button class="btn btn-info" (click)="navigateCreate()">
+        Create Order
+      </button>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body [nbSpinner]="loading">
+    <form [formGroup]="searchForm" class="mb-3">
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <div>
+              <label for="fromDate">From :</label>
+              <input
+                nbInput
+                placeholder="mm/dd/yyyy"
+                [nbDatepicker]="fromDatePicker"
+                formControlName="Date_from"
+                id="fromDate"
+              />
+              <nb-datepicker #fromDatePicker></nb-datepicker>
+            </div>
+          </div>
+          <div class="input">
+            <div>
+              <label for="toDate">To :</label>
+              <input
+                nbInput
+                placeholder="mm/dd/yyyy"
+                [nbDatepicker]="toDatePicker"
+                formControlName="Date_to"
+                id="toDate"
+              />
+              <nb-datepicker #toDatePicker></nb-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <div class="">
+              <input
+                nbInput
+                (input)="onSearchKeyUp(searchInput.value)"
+                placeholder="Search (Facility , Driver and order code)..."
+                class="mb-2"
+                id="searchString"
+                [value]="search_term || null"
+                #searchInput
+              />
+            </div>
+          </div>
+          <div class="input" *ngIf="isAdmin">
+            <input
+              #companyInput
+              nbInput
+              type="text"
+              (input)="onCompanyChange()"
+              placeholder="Select Company ..."
+              class="flex-1 w-100"
+              [value]="companyName || null"
+              [nbAutocomplete]="company"
+            />
+
+            <nb-autocomplete
+              #company
+              (selectedChange)="onCompanySelect($event)"
+            >
+              <nb-option
+                *ngFor="let option of filteredCompanies$ | async"
+                [value]="option.id"
+              >
+                {{ option?.name }}
+              </nb-option>
+            </nb-autocomplete>
+          </div>
+        </div>
+        <div>
+          <button nbButton (click)="onSubmit()" class="mr-3">Search</button>
+          <button nbButton (click)="resetSearch()">Reset</button>
+        </div>
+      </div>
+    </form>
+
+    <!--
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (edit)="editOrder($event)"
+      (create)="navigateCreate()"
+      >
+    </ng2-smart-table>
+
+    <ng-container *ngIf="paginationArgs">
+      <ng-template
+        *ngFor="let item of data | paginate : paginationArgs"
+      ></ng-template>
+    </ng-container>
+
+    <pagination-controls
+      *ngIf="paginationArgs"
+      id="pagination"
+      (pageChange)="getOrders($event)"
+      (pageBoundsCorrection)="getOrders($event)"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+      screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page"
+    >
+    </pagination-controls> -->
+  </nb-card-body>
+</nb-card>
+<div class="card">
+  <p-table
+    #dt2
+    [columns]="selectedColumns"
+    dataKey="order_id"
+    [value]="data"
+    [paginator]="true"
+    [first]="first"
+    [rows]="15"
+    [showCurrentPageReport]="true"
+    styleClass="p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [resizableColumns]="true"
+    [reorderableColumns]="true"
+    (onColReorder)="onColumnReorder($event)"
+    [lazy]="true"
+    (onLazyLoad)="getOrders(null, payload, $event)"
+    [totalRecords]="totalRecords"
+    [globalFilterFields]="[
+      'order_type',
+      'status_type',
+      'order_code',
+      'driver_name'
+    ]"
+  >
+    <ng-template pTemplate="caption" class="d-flex justify-content-between">
+      Orders
+      <p-multiSelect
+        [options]="cols"
+        [(ngModel)]="selectedColumns"
+        optionLabel="header"
+        selectedItemsLabel="{0} columns selected"
+        [style]="{ 'min-width': '200px' }"
+        placeholder="Choose Columns"
+      ></p-multiSelect>
+      <!-- <div class="d-flex gap-3 flex-wrap float-right">
+        <button class="btn btn-info" (click)="saveTable()">
+          Save Table Settings
+        </button>
+      </div> -->
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th class="text-center" pResizableColumn>Actions</th>
+        <th *ngFor="let col of columns" pResizableColumn pReorderableColumn>
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-allOrders let-columns="columns">
+      <tr [ngClass]="getOrderStatusClass(allOrders.status_type)">
+        <td class="d-flex align-items-center">
+          <a (click)="editOrder(allOrders)" class="tableBtn" *ngIf="isAdmin"
+            ><i class="nb-edit"></i>
+          </a>
+          <a (click)="viewOrder(allOrders)" class="tableBtn"
+            ><nb-icon icon="eye-outline" pack="eva"></nb-icon>
+          </a>
+        </td>
+
+        <td *ngFor="let col of columns">
+          {{ allOrders[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="paginatorfirstpagelinkicon">
+      <p-button
+        type="button"
+        icon="pi pi-angle-double-left"
+        styleClass="p-button-text"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorpreviouspagelinkicon">
+      <p-button
+        type="button"
+        icon="pi pi-angle-left"
+        styleClass="p-button-text"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatornextpagelinkicon">
+      <p-button
+        type="button"
+        icon="pi pi-angle-right"
+        styleClass="p-button-text"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorlastpagelinkicon">
+      <p-button
+        type="button"
+        icon="pi pi-angle-double-right"
+        styleClass="p-button-text"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <!-- <p-button type="button" icon="pi pi-plus" styleClass="p-button-text" (click)="storeNewDriver()"></p-button> -->
+    </ng-template>
+  </p-table>
+</div>

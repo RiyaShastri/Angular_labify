@@ -1,0 +1,26 @@
+@use "../../../../styles/helpers/colors" as *;
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: $green !important;
+}
+
+.desktop-header {
+  box-shadow: (0px 4px 20px rgba(0, 0, 0, 0.05));
+}
+
+.nav-link {
+  color: $gray-2;
+
+  &:hover {
+    color: $blue-1;
+  }
+
+  &.active {
+    color: $black;
+  }
+
+  &.cart-active {
+    color: $green !important;
+  }
+}

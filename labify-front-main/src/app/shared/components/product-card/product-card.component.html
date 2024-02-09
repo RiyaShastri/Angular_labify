@@ -1,0 +1,58 @@
+<a
+  *ngIf="product"
+  routerLink="/product/{{ product.id }}"
+  class="d-block product-card bg-white  position-relative"
+>
+  <div
+    class="position-absolute w-100 top-0 start-0 p-3 d-flex align-items-start justify-content-between"
+  >
+    <span class="py-2 px-3 rounded-pill bg-light-blue text-blue-2">{{
+      product.category.name
+    }}</span>
+    <!-- <button
+      (click)="inWishList = !inWishList"
+      [ngClass]="{ 'in-wish-list': inWishList }"
+      class="d-inline-block d-flex justify-content-center align-items-center rounded-circle love"
+    >
+      <i class="fa-solid fa-heart"></i>
+    </button> -->
+  </div>
+  <img
+    [src]="product.image"
+    [alt]="product.name"
+    class="w-100"
+    style="height: 250px; object-fit: cover"
+  />
+  <div class="d-flex flex-column gap-3 align-items-start mt-3 p-3">
+    <p class="fw-semibold fs-3 d-flex align-items-center">
+      <span class="text-gray-4">{{
+        product.price_after_discount | currency
+      }}</span>
+      <span
+        *ngIf="product.have_discount"
+        class="discount text-red rounded-pill p-2 fs-small ms-2"
+        >-{{
+          ((product.price - product.price_after_discount) * 100) / product.price
+            | number : "1.0-0"
+        }}%</span
+      >
+    </p>
+    <p class="text-blue-2">{{ product.name }}</p>
+    <!-- <div class="d-flex flex-wrap gap-3 w-100">
+      <button
+        style="white-space: nowrap; flex: 1"
+        (click)="addToCart($event)"
+        class="btn p-3 text-blue-2 hover:text-white hover:bg-green"
+      >
+        Add to cart
+      </button>
+      <button
+        style="white-space: nowrap; flex: 1"
+        (click)="buyNow($event)"
+        class="btn bg-blue-2 hover:bg-green text-white p-3"
+      >
+        Buy now
+      </button>
+    </div> -->
+  </div>
+</a>

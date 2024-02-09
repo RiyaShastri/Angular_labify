@@ -1,0 +1,157 @@
+@use "./typography" as *;
+@use "../helpers/colors" as *;
+
+i {
+
+  &::before,
+  &::after {
+    font-family: FontAwesome, "Font Awesome", "Font Awesome 5 Pro",
+      "Font Awesome 5 Free", "Material Icons", "Material-Design-Iconic-Font",
+      Flaticon, "CBSi Fantasy icomoon", CBSi_Fantasy_icomoon, icon-moon, icomoon,
+      ui-icons, icons, NewYorkIcons, sans-serif !important;
+  }
+}
+
+button,
+input,
+select,
+textarea,
+a {
+  box-shadow: unset !important;
+}
+
+input:not([type="radio"]),
+select,
+textarea {
+  border-radius: 0 !important;
+}
+
+.btn {
+  border-radius: 0 !important;
+  padding: 0.5rem 1.5rem;
+  transition: all ease-in-out 0.2s;
+  border: none;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.btn-primary {
+  background-color: $green !important;
+  color: $white !important;
+}
+
+.form-control,
+.form-select,
+.form-check-input {
+  border: 1px solid $light-3 !important;
+  background-color: $light-1 !important;
+}
+
+.form-control,
+.form-select {
+  padding: 0.75rem 1rem;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus,
+.form-check-input:checked {
+  border-color: rgba($blue-2, 0.75) !important;
+}
+
+.form-check-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-check-input:checked {
+  background-color: $blue-2 !important;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.skeleton-loader.progress {
+  margin-bottom: -7px !important;
+}
+
+.skeleton-loader.progress {
+  background: rgba($blue-2, 0.1) no-repeat !important;
+}
+
+.dropdown-menu {
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: 0px -2px 12px rgba(0, 0, 0, 0.05);
+  min-width: 250px;
+}
+
+input[type="number"].form-control {
+  max-width: unset !important;
+  width: 80px;
+  text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.swal2-confirm,
+.swal2-cancel,
+.swal2-deny {
+  border-radius: 0 !important;
+}
+
+.swal2-confirm {
+  background-color: $green !important;
+}
+
+.modal-content {
+  border-radius: 0 !important;
+  background-clip: unset !important;
+  border: none !important;
+}
+
+.pagination {
+
+  .active>.page-link,
+  .page-link.active {
+    background-color: $blue-3;
+    border-color: $blue-3;
+    color: $white;
+  }
+
+  .page-item:first-child .page-link,
+  .page-item:last-child .page-link {
+    border-radius: 0;
+  }
+
+  .page-link {
+    color: $blue-3;
+  }
+}

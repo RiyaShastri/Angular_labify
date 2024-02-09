@@ -1,0 +1,26 @@
+<nb-layout>
+  <nb-layout-header subheader fixed>
+    <div class="d-flex w-100 align-items-center justify-content-between">
+      <h4 class="m-0">Labyfi Dispatch</h4>
+      <nb-select
+        [(selected)]="selectedRoute"
+        (selectedChange)="onSelectChange($event)"
+      >
+        <nb-option [value]="'/dispatch/track-drivers'"
+          >Driver Management</nb-option
+        >
+        <nb-option [value]="'/dispatch/assign-orders'" *ngIf="!loggedAsCompany"
+          >Assignment</nb-option
+        >
+        <nb-option [value]="'/dispatch/all-orders'">Orders</nb-option>
+      </nb-select>
+    </div>
+  </nb-layout-header>
+  <nb-layout-column>
+    <nb-card>
+      <nb-card-body class="h-100">
+        <router-outlet></router-outlet>
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

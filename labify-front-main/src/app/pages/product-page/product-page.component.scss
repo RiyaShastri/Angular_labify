@@ -1,0 +1,116 @@
+@use "../../../styles/helpers" as *;
+
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+
+h2.title {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $green;
+    width: 132px;
+    height: 4px;
+  }
+}
+
+.product-nav-btn-prev,
+.product-nav-btn-next {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50px !important;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.product-nav-btn-prev {
+  top: -1rem !important;
+}
+
+.product-nav-btn-next {
+  bottom: -1rem !important;
+}
+
+.product-section {
+  .category,
+  .love {
+    background-color: rgba($blue-2, 0.1);
+  }
+
+  .love {
+    border: none;
+    outline: none;
+    color: $blue-2;
+    width: 40px;
+    height: 40px;
+
+    &:hover,
+    &:focus {
+      color: $red;
+      background-color: rgba($red, 0.1);
+    }
+
+    &.in-wish-list {
+      color: $white;
+      background-color: $red;
+    }
+  }
+
+  .discount {
+    background-color: rgba($red, 0.1);
+  }
+
+  .custom-radio {
+    input[type="radio"] {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    label {
+      height: 35px;
+      width: 35px;
+      border: 1px solid rgba($gray-2, 0.25);
+
+      span {
+        height: 100%;
+        width: 100%;
+        display: inline-block;
+      }
+    }
+
+    input[type="radio"]:focus + label {
+      border: 1px solid $gray-2;
+    }
+
+    input[type="radio"]:checked + label {
+      border: 1px solid $green;
+    }
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.2rem;
+  }
+}
+
+.accordion-button {
+  color: $blue-2;
+  font-weight: 600;
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
+
+.accordion-item {
+  border: 0;
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgba($gray-2, 0.5);
+}

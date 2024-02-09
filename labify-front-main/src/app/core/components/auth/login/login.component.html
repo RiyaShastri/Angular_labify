@@ -1,0 +1,94 @@
+<div class="d-flex">
+  <div class="d-none d-lg-block flex-2">
+    <img
+      src="../../../../../assets/img/login.png"
+      alt=""
+      class="w-100 h-100 object-fit-cover"
+    />
+  </div>
+  <div
+    class="py-5 px-4 px-lg-5 flex-3 d-flex flex-column justify-content-center"
+  >
+    <h1 class="text-blue-2 fw-semibold fs-3">Welcome Back</h1>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="d-flex flex-column gap-4 mt-5"
+    >
+      <div class="input-group d-flex align-items-start flex-column gap-2">
+        <label for="email-login" class="fw-semibold">Email</label>
+        <input
+          type="email"
+          class="form-control w-100"
+          id="email-login"
+          placeholder="Your email"
+          formControlName="email"
+          [ngClass]="{
+            'is-valid': isFieldValid('email'),
+            'is-invalid': isFieldInvalid('email')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+          Email is invalid
+        </div>
+      </div>
+
+      <div class="input-group d-flex align-items-start flex-column gap-2">
+        <label for="password" class="fw-semibold">Password</label>
+        <input
+          type="password"
+          class="form-control w-100"
+          id="password"
+          placeholder="Your password"
+          formControlName="password"
+          [ngClass]="{
+            'is-valid': isFieldValid('password'),
+            'is-invalid': isFieldInvalid('password')
+          }"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+          Password must be at least 8 char.
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckChecked"
+            [(ngModel)]="rememberMe"
+            [ngModelOptions]="{ standalone: true }"
+            checked
+          />
+          <label class="form-check-label" for="flexCheckChecked">
+            Remember me
+          </label>
+        </div>
+
+        <button
+          type="button"
+          class="btn p-0 hover:underline"
+          (click)="forgetPassword()"
+        >
+          Forget Password?
+        </button>
+      </div>
+
+      <button
+        [loadingSpinner]="loading"
+        type="submit"
+        class="btn bg-blue-2 mt-5 p-3 w-100 w-md-50 align-self-center text-white fw-semibold"
+      >
+        Login
+      </button>
+    </form>
+    <p class="text-center mt-3">
+      Don’t have an account?
+      <button class="btn p-0 text-green" (click)="signUp()" type="button">
+        Signup
+      </button>
+    </p>
+  </div>
+</div>

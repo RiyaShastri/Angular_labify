@@ -1,0 +1,28 @@
+@use "../../../../styles/helpers/colors" as *;
+
+.product-card {
+  box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.04);
+}
+
+.love {
+  border: none;
+  outline: none;
+  color: $blue-2;
+  width: 40px;
+  height: 40px;
+
+  &:hover,
+  &:focus {
+    color: $red;
+    background-color: rgba($red, 0.1);
+  }
+
+  &.in-wish-list {
+    color: $white;
+    background-color: $red;
+  }
+}
+
+.discount {
+  background-color: rgba($red, 0.1);
+}

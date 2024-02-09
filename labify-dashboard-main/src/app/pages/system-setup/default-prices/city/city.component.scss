@@ -1,0 +1,18 @@
+.postalcode-input-group {
+  display: flex;
+  input {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+
+  button {
+    border-radius: 0 0.25rem 0.25rem 0;
+  }
+}
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+}
+.city {
+  text-align: left !important;
+}

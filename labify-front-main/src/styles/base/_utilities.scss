@@ -1,0 +1,225 @@
+@use "../helpers" as *;
+
+// flex values => .flex-1 => flex: 1;
+@each $flex-value in $flex {
+  .flex-#{$flex-value} {
+    flex: #{$flex-value};
+  }
+}
+
+// colors
+@each $name, $color in $colors {
+  .text-#{$name} {
+    color: $color !important;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .hover\:text-#{$name} {
+    &:hover {
+      color: $color !important;
+    }
+  }
+
+  .bg-#{$name} {
+    background-color: $color !important;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .hover\:bg-#{$name} {
+    &:hover {
+      background-color: $color !important;
+    }
+  }
+
+  .border-#{$name} {
+    border: 1px solid $color !important;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .hover\:border-#{$name} {
+    &:hover {
+      border: 1px solid $color !important;
+    }
+  }
+}
+
+// z-index
+@each $z-value in $z-index {
+  .z-#{$z-value} {
+    z-index: #{$z-value};
+  }
+
+  .-z-#{$z-value} {
+    z-index: -#{$z-value};
+  }
+}
+
+// width
+@each $key, $value in $width {
+  .w-md-#{$key} {
+    @include screen-md {
+      width: #{$value} !important;
+    }
+  }
+
+  .w-md-auto {
+    @include screen-md {
+      width: auto !important;
+    }
+  }
+
+  .w-lg-#{$key}.w-lg-#{$key} {
+    @include screen-lg {
+      width: #{$value} !important;
+    }
+  }
+
+  .w-lg-auto.w-lg-auto {
+    @include screen-lg {
+      width: auto !important;
+    }
+  }
+
+  .w-xl-#{$key}.w-xl-#{$key}.w-xl-#{$key} {
+    @include screen-xl {
+      width: #{$value} !important;
+    }
+  }
+
+  .w-xl-auto.w-xl-auto.w-xl-auto {
+    @include screen-xl {
+      width: auto !important;
+    }
+  }
+}
+
+.w-fit {
+  width: fit-content !important;
+}
+
+.h-screen {
+  min-height: calc(100vh - $nav-height);
+}
+
+.h-inherit {
+  height: inherit !important;
+}
+
+.spacer {
+  flex: 1 !important;
+}
+
+.fs-small {
+  font-size: 0.8rem !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.aspect-square {
+  aspect-ratio: 1 !important;
+}
+
+.hover\:underline {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.py-6 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.bg-gradient-1 {
+  background-image: $gradient-1;
+}
+
+.bg-gradient-2 {
+  background-image: $gradient-2;
+}
+
+.container-start {
+  width: 100%;
+  padding-inline-start: calc(1.5rem * 0.5);
+  margin-inline-start: auto;
+
+  @include screen-xs {
+    max-width: 540px;
+    padding-inline-end: calc(1.5rem * 0.5);
+    margin-inline-end: auto;
+  }
+
+  @include screen-sm {
+    max-width: 540px;
+    padding-inline-end: calc(1.5rem * 0.5);
+    margin-inline-end: auto;
+  }
+
+  @include screen-md {
+    max-width: 360px;
+    padding-inline-end: unset;
+    margin-inline-end: unset;
+  }
+
+  @include screen-lg {
+    max-width: 480px;
+    padding-inline-end: unset;
+    margin-inline-end: unset;
+  }
+
+  @include screen-xl {
+    max-width: 570px;
+    padding-inline-end: unset;
+    margin-inline-end: unset;
+  }
+
+  @include screen-xxl {
+    max-width: 660px;
+    padding-inline-end: unset;
+    margin-inline-end: unset;
+  }
+}
+
+.container-end {
+  width: 100%;
+  padding-inline-end: calc(1.5rem * 0.5);
+  margin-inline-end: auto;
+
+  @include screen-xs {
+    max-width: 540px;
+    padding-inline-start: calc(1.5rem * 0.5);
+    margin-inline-start: auto;
+  }
+
+  @include screen-sm {
+    max-width: 540px;
+    padding-inline-start: calc(1.5rem * 0.5);
+    margin-inline-start: auto;
+  }
+
+  @include screen-md {
+    max-width: 360px;
+    padding-inline-start: unset;
+    margin-inline-start: unset;
+  }
+
+  @include screen-lg {
+    max-width: 480px;
+    padding-inline-start: unset;
+    margin-inline-start: unset;
+  }
+
+  @include screen-xl {
+    max-width: 570px;
+    padding-inline-start: unset;
+    margin-inline-start: unset;
+  }
+
+  @include screen-xxl {
+    max-width: 660px;
+    padding-inline-start: unset;
+    margin-inline-start: unset;
+  }
+}

@@ -1,0 +1,42 @@
+<div class="d-flex flex-wrap  gap-2 justify-content-end align-items-center mb-4">
+  <label for="currentSurcharge" class="form-label p-0 m-0 mr-2" nbLabel
+    ><span class="font-weight-bold">Current Surcharge Price</span> <br />(last
+    update: {{ currentSurcharge?.created_at }})
+  </label>
+  <input
+    type="text"
+    name=""
+    id="currentSurcharge"
+    nbInput
+    [value]="currentSurcharge?.surcharge_price | currency"
+    readonly
+  />
+</div>
+
+<ng2-smart-table
+  [nbSpinner]="loading"
+  [settings]="settings"
+  [source]="source"
+  (editConfirm)="onEditConfirm($event)"
+  (createConfirm)="onCreateConfirm($event)"
+>
+</ng2-smart-table>
+
+<ng-container *ngIf="cityPricesPaginationArgs">
+  <ng-template
+    *ngFor="let price of cityPrices | paginate : cityPricesPaginationArgs"
+  ></ng-template>
+</ng-container>
+
+<pagination-controls
+  *ngIf="cityPricesPaginationArgs"
+  id="pagination"
+  (pageChange)="getList($event)"
+  (pageBoundsCorrection)="getList($event)"
+  previousLabel="Previous"
+  nextLabel="Next"
+  screenReaderPaginationLabel="Pagination"
+  screenReaderPageLabel="page"
+  screenReaderCurrentLabel="You're on page"
+>
+</pagination-controls>

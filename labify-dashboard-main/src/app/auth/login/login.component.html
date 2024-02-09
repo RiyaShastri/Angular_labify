@@ -1,0 +1,83 @@
+<h1 id="title" class="title">Login</h1>
+
+<form
+  *ngIf="loginForm"
+  (ngSubmit)="login()"
+  [formGroup]="loginForm"
+  aria-labelledby="title"
+>
+  <div class="input">
+    <label for="email">Email</label>
+    <nb-form-field>
+      <nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        nbInput
+        fullWidth
+        placeholder="Email"
+        [status]="
+          isFieldTouched('email')
+            ? isFieldValid('email')
+              ? 'success'
+              : 'danger'
+            : 'basic'
+        "
+      />
+    </nb-form-field>
+    <p class="caption status-danger" *ngIf="isFieldInvalid('email')">
+      Invalid email!
+    </p>
+  </div>
+
+  <div class="input">
+    <label for="password">Password</label>
+    <nb-form-field>
+      <input
+        [type]="showPassword ? 'input' : 'password'"
+        id="password"
+        nbInput
+        fullWidth
+        placeholder="**************"
+        formControlName="password"
+        [status]="
+          isFieldTouched('password')
+            ? isFieldValid('password')
+              ? 'success'
+              : 'danger'
+            : 'basic'
+        "
+      />
+      <button
+        type="button"
+        nbSuffix
+        nbButton
+        ghost
+        (click)="showPassword = !showPassword"
+      >
+        <nb-icon
+          [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+          pack="eva"
+          [attr.aria-label]="showPassword ? 'hide password' : 'show password'"
+        >
+        </nb-icon>
+      </button>
+    </nb-form-field>
+
+    <p class="caption status-danger" *ngIf="isFieldInvalid('password')">
+      Password is required!
+    </p>
+  </div>
+
+  <button
+    nbButton
+    fullWidth
+    [nbSpinner]="loading"
+    nbSpinnerStatus="basic"
+    [status]="'primary'"
+    [disabled]="loading"
+  >
+    Log In
+  </button>
+</form>

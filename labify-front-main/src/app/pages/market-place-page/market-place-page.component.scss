@@ -1,0 +1,26 @@
+@use "../../../styles/helpers/colors" as *;
+
+.image-bg {
+  height: inherit !important;
+  background-image: url("../../../assets/img/market-place-section-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h2 {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $green;
+    width: 132px;
+    height: 4px;
+  }
+}
+
+.text-justify {
+  text-align: justify;
+}

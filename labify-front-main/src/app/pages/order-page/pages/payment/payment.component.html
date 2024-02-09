@@ -1,0 +1,569 @@
+ <!-- "This component contains stock logic. Currently, it is not in use, but we might consider using it in the future. -->
+
+<section class="pb-5 pt-4 bg-light">
+  <div class="container">
+    <nav
+      style="--bs-breadcrumb-divider: '>'"
+      aria-label="breadcrumb"
+      *ngIf="!isStock"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/order/cart" class="text-gray-3 hover:text-green"
+            >My Cart
+          </a>
+        </li>
+        <!-- <li class="breadcrumb-item">
+          <a routerLink="/order/shipping" class="text-gray-3 hover:text-green"
+            >Shipping
+          </a>
+        </li> -->
+        <li class="breadcrumb-item active text-blue-2" aria-current="page">
+          <span class="fw-semibold">Payment</span>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row gap-4 gap-md-0 mt-4">
+      <div class="col-md-8 d-flex flex-column">
+        <!-- <div class="d-flex justify-content-between">
+          <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">
+            Delivery Address
+          </h3>
+
+          <button class="btn p-0 text-green fw-semibold">Edit</button>
+        </div>
+
+        <div class="custom-card mb-4">
+          <p class="text-gray-3 fw-semibold">
+            Mohamed Elhossiny, Al mansoura, Egypt
+          </p>
+          <p class="text-gray-2 py-2">
+            Example Txt, Lebanon street, Alagoza, Next to Egybank,Example Txt,
+            Al Mansourah, All USA, +201124784249
+          </p>
+        </div> -->
+
+        <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">
+          Payment Methods
+        </h3>
+
+        <div class="d-flex flex-column flex-1">
+          <label
+            for="method-1"
+            class="custom-card border-light-3 address-radio-btn d-flex gap-4 align-items-center justify-content-start"
+          >
+            <input
+              type="radio"
+              class="form-check-input rounded-pill m-0"
+              name="address"
+              [(ngModel)]="paymentMethod"
+              (change)="onPaymentSelect()"
+              [value]="1"
+              id="method-1"
+            />
+            <div class="">
+              <p class="text-gray-3 fw-semibold">Cash on delivery</p>
+            </div>
+          </label>
+
+          <label
+            for="method-2"
+            class="custom-card border-light-3 address-radio-btn d-flex gap-4 align-items-start justify-content-start"
+          >
+            <input
+              type="radio"
+              class="form-check-input rounded-pill m-0"
+              name="address"
+              [(ngModel)]="paymentMethod"
+              (change)="onPaymentSelect()"
+              [value]="3"
+              id="method-2"
+            />
+            <div class="w-100">
+              <div class="d-flex align-items-center">
+                <p class="text-gray-3 fw-semibold">Pay By Card</p>
+                <!--
+                <i
+                  class="fa-brands fa-cc-mastercard ms-auto fa-2xl d-inline-block"
+                ></i>
+                <i class="fa-brands fa-cc-visa fa-2xl ms-3 d-inline-block"></i> -->
+              </div>
+
+              <form class="mt-4 w-100 bg-light-2 p-4">
+                <!-- <div class="mb-4">
+                  <label for="name" class="pb-1 fw-semibold text-gray-3"
+                    >Card Holder</label
+                  >
+                  <input type="text" id="name" class="form-control" />
+                </div> -->
+
+                <div class="mb-4">
+                  <label for="number" class="pb-1 fw-semibold text-gray-3">
+                    Card Number</label
+                  >
+                  <input
+                    type="text"
+                    id="number"
+                    [(ngModel)]="cardNumber"
+                    name="cardNumber"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        !cardNumber && showValidationErrors && checkoutClicked
+                    }"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      !cardNumber && showValidationErrors && checkoutClicked
+                    "
+                  >
+                    Card number is required
+                  </div>
+                </div>
+
+                <div class="row gap-md-0">
+                  <div class="col">
+                    <label for="month" class="pb-1 fw-semibold text-gray-3"
+                      >Month</label
+                    >
+                    <select
+                      name=""
+                      class="form-select"
+                      [(ngModel)]="expirationMonth"
+                      name="expirationMonth"
+                      id="month"
+                      [ngClass]="{
+                        'is-invalid':
+                          !expirationMonth &&
+                          showValidationErrors &&
+                          checkoutClicked
+                      }"
+                    >
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+                      <option value="03">03</option>
+                      <option value="04">04</option>
+                      <option value="05">05</option>
+                      <option value="06">06</option>
+                      <option value="07">07</option>
+                      <option value="08">08</option>
+                      <option value="09">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        !expirationMonth &&
+                        showValidationErrors &&
+                        checkoutClicked
+                      "
+                    >
+                      Month is required
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <label for="year" class="pb-1 fw-semibold text-gray-3"
+                      >Year</label
+                    >
+                    <select
+                      name=""
+                      class="form-select"
+                      [(ngModel)]="expirationYear"
+                      name="expirationYear"
+                      id="year"
+                      [ngClass]="{
+                        'is-invalid':
+                          !expirationYear &&
+                          showValidationErrors &&
+                          checkoutClicked
+                      }"
+                    >
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                    </select>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        !expirationYear &&
+                        showValidationErrors &&
+                        checkoutClicked
+                      "
+                    >
+                      Year is required
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <label for="cvc" class="pb-1 fw-semibold text-gray-3"
+                      >cvc</label
+                    >
+                    <input
+                      type="number"
+                      id="cvc"
+                      [(ngModel)]="cvc"
+                      name="cvc"
+                      class="form-control text-start w-100"
+                      [ngClass]="{
+                        'is-invalid':
+                          !cvc && showValidationErrors && checkoutClicked
+                      }"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="!cvc && showValidationErrors && checkoutClicked"
+                    >
+                      CVC is required
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-4" *ngIf="!isStock; else stock">
+        <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">
+          Shopping cart
+        </h3>
+
+        <div class="custom-card mb-4">
+          <ng-container *ngFor="let product of products; let i = index">
+            <div class="d-flex gap-4">
+              <div class="item-img">
+                <img
+                  [src]="product.variant.image"
+                  class="object-fit-contain"
+                  style="width: 80px; height: 80px"
+                  [alt]="product.product.name"
+                />
+              </div>
+              <div class="">
+                <p class="text-gray-3 fw-semibold">
+                  {{ product.product.name }}
+                </p>
+                <p class="text-gray-2 fs-small">QTY: {{ product.quantity }}</p>
+                <p class="text-gray-2 fs-small">
+                  COLOR: {{ product.variant.color.name }}
+                </p>
+                <p class="text-gray-2 fs-small">
+                  DIMENSION:
+                  {{ product.variant.dimension.dimension }}
+                </p>
+                <p class="fw-bold text-gray-4">
+                  ${{
+                    product.product.price_after_discount +
+                      product.variant.additional_price | number : "1.2-2"
+                  }}
+                </p>
+              </div>
+            </div>
+            <hr *ngIf="i != products.length - 1" />
+          </ng-container>
+
+          <div *ngIf="!products" class="d-flex flex-column">
+            <ng-container *ngFor="let _ of [].constructor(3); let i = index">
+              <div class="d-flex gap-4">
+                <div class="item-img">
+                  <ngx-skeleton-loader
+                    [theme]="{width: '70px', height: '70px', 'border-radius': '0',}"
+                  ></ngx-skeleton-loader>
+                </div>
+                <div class="">
+                  <p class="text-gray-3 fw-semibold">
+                    <ngx-skeleton-loader
+                      [theme]="{width: '200px','border-radius': '0',}"
+                    ></ngx-skeleton-loader>
+                  </p>
+                  <p class="text-gray-2">
+                    QTY:
+                    <ngx-skeleton-loader
+                      [theme]="{width: '100px','border-radius': '0',}"
+                    ></ngx-skeleton-loader>
+                  </p>
+                  <p class="fw-bold text-gray-4">
+                    <ngx-skeleton-loader
+                      [theme]="{width: '100px','border-radius': '0',}"
+                    ></ngx-skeleton-loader>
+                  </p>
+                </div>
+              </div>
+              <hr *ngIf="i != 2" />
+            </ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="grandTotal" class="custom-card">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="coupon"
+              placeholder="Coupon code or gift code"
+            />
+            <button
+              [loadingSpinner]="applyingCoupon"
+              (click)="applyCoupon()"
+              class="btn border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+            >
+              Apply
+            </button>
+          </div>
+
+          <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+          <hr />
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Subtotal</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.subtotal | number : "1.2-2" }}</span
+              >
+            </div>
+            <div
+              *ngIf="grandTotal.coupon_price"
+              class="d-flex justify-content-between"
+            >
+              <span class="fw-semibold text-gray-2">Discount</span>
+              <span class="fw-semibold text-gray-4"
+                >-${{ grandTotal.coupon_price | number : "1.2-2" }}</span
+              >
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold text-gray-2">Shipping Fee</span>
+              <span class="fw-semibold text-gray-4"
+                >${{ grandTotal.shipping_price | number : "1.2-2" }}</span
+              >
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="d-flex justify-content-between">
+            <span class="fw-bold text-gray-2">Total</span>
+            <span class="fw-bold text-gray-4"
+              >${{ grandTotal.grand_total | number : "1.2-2" }}</span
+            >
+          </div>
+        </div>
+
+        <ng-container *ngIf="!grandTotal">
+          <div class="custom-card">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Coupon code"
+              />
+              <button
+                class="btn px-3 border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+              >
+                Apply
+              </button>
+            </div>
+
+            <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+            <hr />
+            <div class="d-flex flex-column gap-2">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-gray-2">Subtotal</span>
+                <span class="fw-semibold text-gray-4"
+                  ><ngx-skeleton-loader
+                    [theme]="{width: '100px', 'border-radius': '0',}"
+                  ></ngx-skeleton-loader
+                ></span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold text-gray-2">Shipping Fee</span>
+                <span class="fw-semibold text-gray-4"
+                  ><ngx-skeleton-loader
+                    [theme]="{width: '100px', 'border-radius': '0',}"
+                  ></ngx-skeleton-loader
+                ></span>
+              </div>
+            </div>
+
+            <hr />
+            <div class="d-flex justify-content-between">
+              <span class="fw-bold text-gray-2">Total</span>
+              <span class="fw-bold text-gray-4"
+                ><ngx-skeleton-loader
+                  [theme]="{width: '100px', 'border-radius': '0',}"
+                ></ngx-skeleton-loader
+              ></span>
+            </div>
+          </div>
+          <button class="btn btn-primary py-3 w-100 mt-4">Payment</button>
+        </ng-container>
+
+        <button
+          *ngIf="grandTotal"
+          (click)="checkout()"
+          [loadingSpinner]="placingOrder"
+          routerLink="/order/payment"
+          class="btn btn-primary py-3 w-100 mt-4"
+        >
+          Confirm Payment
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #stock>
+  <div class="col-md-4">
+    <h3 class="text-gray-2 text-uppercase mb-4 fs-6 fw-semibold">Stock cart</h3>
+
+    <div class="custom-card mb-4">
+      <ng-container *ngFor="let product of stockProducts; let i = index">
+        <div class="d-flex gap-4">
+          <div class="item-img">
+            <img
+              [src]="product.item.variant.image"
+              class="object-fit-contain"
+              style="width: 80px; height: 80px"
+              [alt]="product.item.variant.product.name"
+            />
+          </div>
+          <div class="">
+            <p class="text-gray-3 fw-semibold">
+              {{ product.item.variant.product.name }}
+            </p>
+            <p class="text-gray-2 fs-small">QTY: {{ product.quantity }}</p>
+            <p class="text-gray-2 fs-small">
+              COLOR: {{ product.item.variant.color.name }}
+            </p>
+            <p class="text-gray-2 fs-small">
+              DIMENSION:
+              {{ product.item.variant.dimension.dimension }}
+            </p>
+            <p class="fw-bold text-gray-4">
+              ${{
+                product.item.variant.product.price_after_discount +
+                  product.item.variant.additional_price | number : "1.2-2"
+              }}
+            </p>
+          </div>
+        </div>
+        <hr *ngIf="i != stockProducts.length - 1" />
+      </ng-container>
+    </div>
+
+    <div *ngIf="grandTotal" class="custom-card">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="coupon"
+          placeholder="Coupon code or gift code"
+        />
+        <button
+          [loadingSpinner]="applyingCoupon"
+          (click)="applyCoupon()"
+          class="btn border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+        >
+          Apply
+        </button>
+      </div>
+
+      <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+      <hr />
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex justify-content-between">
+          <span class="fw-semibold text-gray-2">Subtotal</span>
+          <span class="fw-semibold text-gray-4"
+            >${{ grandTotal.subtotal | number : "1.2-2" }}</span
+          >
+        </div>
+        <div
+          *ngIf="grandTotal.coupon_price"
+          class="d-flex justify-content-between"
+        >
+          <span class="fw-semibold text-gray-2">Discount</span>
+          <span class="fw-semibold text-gray-4"
+            >-${{ grandTotal.coupon_price | number : "1.2-2" }}</span
+          >
+        </div>
+        <div class="d-flex justify-content-between">
+          <span class="fw-semibold text-gray-2">Shipping Fee</span>
+          <span class="fw-semibold text-gray-4"
+            >${{ grandTotal.shipping_price | number : "1.2-2" }}</span
+          >
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="d-flex justify-content-between">
+        <span class="fw-bold text-gray-2">Total</span>
+        <span class="fw-bold text-gray-4"
+          >${{ grandTotal.grand_total | number : "1.2-2" }}</span
+        >
+      </div>
+    </div>
+
+    <ng-container *ngIf="grandTotal">
+      <div class="custom-card">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Coupon code" />
+          <button
+            class="btn px-3 border-light-3 bg-light-1 border-start-0 text-blue-2 hover:bg-light-3"
+          >
+            Apply
+          </button>
+        </div>
+
+        <h3 class="text-gray-3 fs-6 fw-semibold my-3">Order Summary</h3>
+
+        <hr />
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-gray-2">Subtotal</span>
+            <span class="fw-semibold text-gray-4"
+              ><ngx-skeleton-loader
+                [theme]="{width: '100px', 'border-radius': '0',}"
+              ></ngx-skeleton-loader
+            ></span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold text-gray-2">Shipping Fee</span>
+            <span class="fw-semibold text-gray-4"
+              ><ngx-skeleton-loader
+                [theme]="{width: '100px', 'border-radius': '0',}"
+              ></ngx-skeleton-loader
+            ></span>
+          </div>
+        </div>
+
+        <hr />
+        <div class="d-flex justify-content-between">
+          <span class="fw-bold text-gray-2">Total</span>
+          <span class="fw-bold text-gray-4"
+            ><ngx-skeleton-loader
+              [theme]="{width: '100px', 'border-radius': '0',}"
+            ></ngx-skeleton-loader
+          ></span>
+        </div>
+      </div>
+      <!-- <button class="btn btn-primary py-3 w-100 mt-4">Payment</button> -->
+    </ng-container>
+
+    <button
+      (click)="stockCheckOut()"
+      [loadingSpinner]="placingOrder"
+      [routerLink]="['/profile/deliveries']"
+      class="btn btn-primary py-3 w-100 mt-4"
+    >
+      Confirm Payment
+    </button>
+  </div>
+</ng-template>

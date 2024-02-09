@@ -1,0 +1,18 @@
+<div class="container-fluid pb-5">
+  <div class="d-flex gap-4 flex-wrap justify-content-center">
+    <ng-container *ngFor="let link of links; let i = index">
+      <div *ngIf="link.title !== 'Dispatch' && link.title !== 'Home'" class="link-container">
+        <a class="card w-100" [routerLink]="link.route">
+          <img src="../../../assets/img/home/{{ (i % 8) + 1 }}.svg" alt="" />
+          <p>{{ link.title }}</p>
+        </a>
+      </div>
+      <div *ngIf="link.title === 'Dispatch'" class="link-container">
+        <a class="card w-100" href="/dispatch/track-drivers" target="_blank">
+          <img src="../../../assets/img/home/5.svg" alt="" />
+          <p>{{ link.title }}</p>
+        </a>
+      </div>
+    </ng-container>
+  </div>
+</div>

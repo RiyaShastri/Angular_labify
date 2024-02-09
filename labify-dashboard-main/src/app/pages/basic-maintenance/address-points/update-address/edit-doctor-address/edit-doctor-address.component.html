@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>
+    <div style="display: flex; gap: 0.5rem; align-items: center">
+      <a routerLink="../../addresses" nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </a>
+      <span>Edit Doctor Address</span>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-tabset>
+      <nb-tab tabTitle="Address details">
+        <ngx-doctor-address-details></ngx-doctor-address-details>
+      </nb-tab>
+      <nb-tab tabTitle="Address available times">
+        <ngx-doctor-address-schedule></ngx-doctor-address-schedule>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,73 @@
+<section class="d-md-flex">
+  <div class="w-md-50 py-6">
+    <div class="container-start">
+      <div class="w-xl-75 py-xl-5 pe-3">
+        <h1 class="text-blue-2 display-6 fw-bold">LABYFI Market Place</h1>
+        <p class="text-gray-2 my-3 text-justify">
+          At LABYFI's marketplace we have created a user-friendly e-commerce
+          platform where customers can easily search, browse, and purchase
+          medical supplies. The platform includes secure payment processing and
+          product reviews.
+        </p>
+        <p class="text-gray-2 my-3 text-justify">
+          Our Marketplace curates a wide range of medical supplies that serves
+          all of your practice's needs. We ensure you that the products listed
+          on our marketplace meet the necessary quality and safety standards of
+          tthe industry.
+        </p>
+        <p class="text-gray-2 my-3 text-justify">
+          Our Inventory Management System allows us tto track stock levels,
+          monitor expiration dates, and ensure the availability of products so
+          you do not have to check your stock room on a frequent basis.
+        </p>
+        <!-- <div class="d-flex flex-wrap gap-3 mt-5">
+          <button class="btn py-3 btn-primary">See Product</button>
+          <button class="btn py-3">See All Deals</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="w-md-50 image-bg">
+    <img
+      src="../../../assets/img/market-place-section-1.png"
+      alt=""
+      class="w-100 h-100 object-fit-cover d-md-none"
+    />
+  </div>
+</section>
+
+<section class="py-5 bg-light-1">
+  <div class="container">
+    <h2 class="text-blue-2 fs-3 pt-3 mb-5">Our Products List</h2>
+
+    <div class="row pb-5">
+      <ng-container *ngIf="loading; else products">
+        <div
+          class="col-md-6 col-lg-4 col-xxl-3 mb-4"
+          *ngFor="let product of [].constructor(12)"
+        >
+          <ngx-skeleton-loader
+            [theme]="{ width: '100%', height: '350px', 'border-radius': '0' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </ng-container>
+
+      <ng-template #products>
+        <div
+          class="col-md-6 col-lg-4 col-xxl-3 mb-4"
+          *ngFor="let product of allProducts"
+        >
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </ng-template>
+
+      <ngb-pagination
+        *ngIf="pagination"
+        [collectionSize]="pagination.total"
+        [page]="pagination.current_page"
+        [pageSize]="pagination.per_page"
+        (pageChange)="getProducts($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</section>

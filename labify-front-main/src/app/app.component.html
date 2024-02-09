@@ -1,0 +1,19 @@
+<app-toaster></app-toaster>
+
+<div id="app-container">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  <app-map></app-map>
+  <app-contact *ngIf="showContact"></app-contact>
+  <app-footer></app-footer>
+</div>
+
+<button
+  id="go-to-top-btn"
+  #goToTopBtn
+  class="btn bg-light-3 text-dark hover:bg-green hover:text-white aspect-square p-2"
+  style="width: 60px"
+  (click)="scrollToTop()"
+>
+  <i class="fa-solid fa-angles-up"></i>
+</button>

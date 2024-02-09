@@ -1,0 +1,11 @@
+<div class="d-flex flex-column gap-2">
+  <button (click)="increment()" class="btn border p-1">+</button>
+  <input
+    type="number"
+    [tabIndex]="-1"
+    [value]="currentValue"
+    readonly
+    class="form-control"
+  />
+  <button (click)="decrement()" class="btn border p-1">-</button>
+</div>

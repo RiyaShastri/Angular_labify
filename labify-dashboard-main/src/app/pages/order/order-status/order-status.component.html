@@ -1,0 +1,367 @@
+<nb-card>
+  <nb-card-header>
+    <div class="">
+      <button (click)="location.back()" nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </button>
+      Order Status
+    </div>
+  </nb-card-header>
+  <nb-card-body
+    *ngIf="allOrder?.pickup_status || allOrder?.delivery_status; else noData"
+  >
+    <div class="pickedup" *ngIf="allOrder?.pickup_status">
+      <h5>Pickup Details :</h5>
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Reference Number</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.refrence"
+              readonly
+            />
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Bol</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.bol"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Order Type</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.order_type || 'None'"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status_created"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Weight</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.weight"
+              readonly
+            />
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Signatory</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.signatory"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="row align-items-end" *ngIf="isAdmin">
+          <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.pickup_pieces"
+              [(ngModel)]="pickup_pieces"
+            />
+          </div>
+          <div class="input">
+            <button
+              nbButton
+              (click)="updatePieces('pickup')"
+              [nbSpinner]="pickupPiecesLoading"
+            >
+              Update Pieces
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="!isAdmin">
+           <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status.pickup_pieces"
+              [(ngModel)]="pickup_pieces"
+              disabled
+            />
+          </div>
+          <div class="input"></div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Driver Name</label>
+            <input
+              type="text"
+              class="w-50"
+              nbInput
+              [value]="allOrder?.driver_name"
+              readonly
+            />
+          </div>
+          <div class="input"></div>
+        </div>
+        <h6>Photos :</h6>
+        <input
+          type="file"
+          nbInput
+          (change)="onFileSelected($event)"
+          accept="image/*"
+        />
+        <span>
+          <button
+            nbButton
+            (click)="uploadSelectedFile('pickup')"
+            [nbSpinner]="imgLoadin"
+          >
+            Upload
+          </button></span
+        >
+        <ngx-image-slider
+          [order_id]="allOrder.id"
+          [imgList]="pickupImgList"
+          *ngIf="allOrder.pickup_status.image_orders.length; else noPics"
+        ></ngx-image-slider>
+        <div class="row mb-5 mt-0">
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status_created"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Time</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.pickup_status_time"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="delivery">
+      <h5>Delivery Status Details :</h5>
+      <div class="inputs" *ngIf="allOrder.delivery_status; else status">
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Reference Number</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status.refrence"
+              readonly
+            />
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Bol</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status.bol"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Order Type</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.order_type || 'None'"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status_created"
+              readonly
+            />
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Weight</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status.weight"
+              readonly
+            />
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Signatory</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status.signatory"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row" *ngIf="isAdmin">
+           <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_pieces"
+              [(ngModel)]="delivery_pieces"
+            />
+          </div>
+           <div class="input">
+            <button
+              nbButton
+              (click)="updatePieces('delivery')"
+              [nbSpinner]="deliveryPiecesLoading"
+            >
+              Update Pieces
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="!isAdmin">
+            <div class="input">
+            <label for="delivery-contact">Pieces</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              disabled
+              [value]="allOrder?.delivery_status.pickup_pieces"
+              [(ngModel)]="delivery_pieces"
+            />
+          </div>
+          <div class="input"></div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Driver Name</label>
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.driver_name"
+              readonly
+            />
+          </div>
+          <div class="input"></div>
+        </div>
+        <h6>Photos :</h6>
+        <input
+          type="file"
+          nbInput
+          (change)="onFileSelected($event)"
+          accept="image/*"
+        />
+        <span>
+          <button
+            nbButton
+            (click)="uploadSelectedFile('delivery')"
+            [nbSpinner]="imgLoadin"
+          >
+            Upload
+          </button></span
+        >
+
+        <ngx-image-slider
+          [imgList]="deliveryImgList"
+          *ngIf="allOrder.delivery_status.image_orders.length; else noPics"
+        ></ngx-image-slider>
+        <div class="row mb-5 mt-0">
+          <div class="input">
+            <label for="delivery-contact">Date</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status_created"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Time</label>
+
+            <input
+              type="text"
+              class=" "
+              nbInput
+              [value]="allOrder?.delivery_status_time"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <ng-template #status>
+        Delivery status has not been updated yet.
+      </ng-template>
+    </div>
+  </nb-card-body>
+  <ng-template #noData>
+    <nb-card-body> status has not been updated yet. </nb-card-body>
+  </ng-template>
+  <ng-template #noPics>
+    <nb-card-body> Photos have not been updated yet. </nb-card-body>
+  </ng-template>
+</nb-card>

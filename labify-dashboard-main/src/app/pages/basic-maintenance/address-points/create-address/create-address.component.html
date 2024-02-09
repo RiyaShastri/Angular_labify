@@ -1,0 +1,44 @@
+<nb-card>
+  <nb-card-header>
+    Create Address Point
+    <input class="input"
+      [value]='address'
+        nbInput
+        type="text"
+        [(ngModel)]="autocompleteInput"
+        #addresstext
+        style="width: 100%;"
+        >
+  </nb-card-header>
+
+  <nb-card-body>
+    <!-- <form [formGroup]="createDoctorForm" (ngSubmit)="onSubmit()">
+
+      <input type="text" class="col-5  mr-5 mt-1" nbInput fullWidth placeholder="Name"
+        [ngClass]="{'is-valid': isFieldValid('name'),'is-invalid': isFieldInvalid('name')}" formControlName="name">
+      <div *ngIf="isFieldInvalid('name')" class="invalid-feedback">
+        Name invalid
+      </div>
+      <input type="email" class="col-5  mr-5 mt-1" nbInput fullWidth placeholder="email"
+        [ngClass]="{'is-valid': isFieldValid('email'),'is-invalid': isFieldInvalid('email')}" formControlName="email">
+      <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+        email invalid
+      </div>
+
+
+
+      <input type="text" class="col-5  mr-5 mt-3" nbInput fullWidth readonly formControlName="user_id"
+        [placeholder]='"company id : "+id'>
+      <button nbButton class="mt-3 mr-3" type="submit" [disabled]="!createDoctorForm.valid"><i
+          class="spinner-border spinner-border-sm mr-2" *ngIf="loading"></i>Save</button>
+      <button nbButton class="mt-3" (click)="cancel()">cancel</button>
+    </form> -->
+
+
+
+
+
+
+
+  </nb-card-body>
+</nb-card>

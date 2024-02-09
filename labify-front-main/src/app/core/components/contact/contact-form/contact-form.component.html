@@ -1,0 +1,240 @@
+<form
+  [formGroup]="contactForm"
+  (ngSubmit)="onSubmit()"
+  class="d-flex flex-column gap-4 mt-4"
+>
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="fn" class="text-uppercase fw-semibold">First Name</label>
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="fn"
+              formControlName="first_name"
+              [ngClass]="{
+                'is-valid': isFieldValid('first_name'),
+                'is-invalid': isFieldInvalid('first_name')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('first_name')">
+              First name is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="ln" class="text-uppercase fw-semibold">Last Name</label>
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="text"
+              class="form-control flex-1"
+              id="ln"
+              formControlName="last_name"
+              [ngClass]="{
+                'is-valid': isFieldValid('last_name'),
+                'is-invalid': isFieldInvalid('last_name')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('last_name')">
+              Last name is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="email" class="text-uppercase fw-semibold">E-Mail</label>
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="email"
+              class="form-control w-100"
+              id="email"
+              formControlName="email"
+              [ngClass]="{
+                'is-valid': isFieldValid('email'),
+                'is-invalid': isFieldInvalid('email')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+              Email is invalid
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="phone" class="text-uppercase fw-semibold"
+            >Phone Number</label
+          >
+          <div class="d-flex flex-wrap w-100">
+            <input
+              type="tel"
+              class="form-control flex-1"
+              id="phone"
+              formControlName="phone"
+              [ngClass]="{
+                'is-valid': isFieldValid('phone'),
+                'is-invalid': isFieldInvalid('phone')
+              }"
+            />
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+              Phone must be 11 digits
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group d-flex align-items-start flex-column gap-2">
+    <label for="cn" class="text-uppercase fw-semibold">Company Name</label>
+    <div class="d-flex flex-wrap w-100">
+      <input
+        class="form-control w-100"
+        id="cn"
+        formControlName="company_name"
+        [ngClass]="{
+          'is-valid': isFieldValid('company_name'),
+          'is-invalid': isFieldInvalid('company_name')
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('company_name')">
+        Company Name is required
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row gy-4">
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="city" class="text-uppercase fw-semibold">City</label>
+          <div class="d-flex flex-wrap w-100">
+            <select
+              class="form-select w-100"
+              id="city"
+              formControlName="city_id"
+              [ngClass]="{
+                'is-valid': isFieldValid('city_id'),
+                'is-invalid': isFieldInvalid('city_id')
+              }"
+              #citySelect
+              (change)="onCityChange(+citySelect.value)"
+            >
+              <option [value]="city.id" *ngFor="let city of cities">
+                {{ city.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('city_id')">
+              City is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="input-group d-flex align-items-start flex-column gap-2">
+          <label for="state" class="text-uppercase fw-semibold">State</label>
+          <div class="d-flex flex-wrap w-100">
+            <select
+              class="form-select flex-1"
+              id="state"
+              formControlName="state_id"
+              [ngClass]="{
+                'is-valid': isFieldValid('state_id'),
+                'is-invalid': isFieldInvalid('state_id')
+              }"
+            >
+              <option *ngFor="let district of districts" [value]="district.id">
+                {{ district.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isFieldInvalid('state_id')">
+              State is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group d-flex align-items-start flex-column gap-2">
+    <label for="tob" class="text-uppercase fw-semibold">Type of Business</label>
+    <div class="d-flex flex-wrap w-100">
+      <input
+        type="text"
+        class="form-control w-100"
+        id="tob"
+        formControlName="type_bussiness"
+        [ngClass]="{
+          'is-valid': isFieldValid('type_bussiness'),
+          'is-invalid': isFieldInvalid('type_bussiness')
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('type_bussiness')">
+        Business type is required
+      </div>
+    </div>
+  </div>
+
+  <div class="input-group d-flex align-items-start flex-column gap-2">
+    <label for="interested" class="text-uppercase fw-semibold"
+      >What are you interested in?</label
+    >
+    <div class="d-flex flex-wrap w-100">
+      <input
+        type="text"
+        class="form-control w-100"
+        id="interested"
+        formControlName="intersted_in"
+        [ngClass]="{
+          'is-valid': isFieldValid('intersted_in'),
+          'is-invalid': isFieldInvalid('intersted_in')
+        }"
+      />
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('intersted_in')">
+        This feild is required
+      </div>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend class="text-uppercase fw-semibold fs-6">
+      Do you currently use an in-house courier or Vendor?
+    </legend>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        formControlName="courier"
+        [value]="'In House'"
+        id="in-house"
+      />
+      <label class="form-check-label" for="in-house"> In House </label>
+    </div>
+
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        formControlName="courier"
+        [value]="'Vendor'"
+        id="vendor"
+      />
+      <label class="form-check-label" for="vendor"> Vendor </label>
+    </div>
+  </fieldset>
+
+  <button class="btn btn-primary" type="submit" [loadingSpinner]="sending">Send</button>
+</form>

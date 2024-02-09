@@ -1,0 +1,15 @@
+@use '../../../styles/helpers/colors' as *;
+
+.description {
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 8.25rem;
+    height: 0.25rem;
+    background-color: $green;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+  }
+}

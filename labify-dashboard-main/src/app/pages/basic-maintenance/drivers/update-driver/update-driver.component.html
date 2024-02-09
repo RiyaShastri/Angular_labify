@@ -1,0 +1,260 @@
+<nb-card>
+  <nb-card-header>
+    <div style="display: flex; gap: 0.5rem; align-items: center">
+      <a routerLink="../../" nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </a>
+      <span>Edit driver details</span>
+      <a
+        [routerLink]="['../../driver-schedule', driverId]"
+        nbButton
+        status="primary"
+        class="ml-auto"
+        >Driver Schedule</a
+      >
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <form *ngIf="driverForm" [formGroup]="driverForm" (ngSubmit)="onSubmit()">
+      <div class="inputs">
+        <div class="row">
+          <div class="input">
+            <label for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              nbInput
+              placeholder="Name"
+              [status]="
+                isFieldTouched('name')
+                  ? isFieldValid('name')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('name')">
+              Name is required!
+            </p>
+          </div>
+
+          <div class="input">
+            <label for="phone">Phone</label>
+            <input
+              id="phone"
+              type="tel"
+              formControlName="phone"
+              nbInput
+              placeholder="Phone"
+              [status]="
+                isFieldTouched('phone')
+                  ? isFieldValid('phone')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('phone')">
+              Phone is required!
+            </p>
+          </div>
+
+          <div class="input">
+            <label for="email">Email</label>
+            <nb-form-field>
+              <nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                nbInput
+                fullWidth
+                placeholder="Email"
+                [status]="
+                  isFieldTouched('email')
+                    ? isFieldValid('email')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+            </nb-form-field>
+            <p class="caption status-danger" *ngIf="isFieldInvalid('email')">
+              Invalid email!
+            </p>
+          </div>
+        </div>
+        <div class="row">
+         <div class="input">
+            <label for="">Payment Types </label>
+
+            <input
+              #autoInput
+              nbInput
+              type="text"
+              placeholder="Select Payment"
+              formControlName="type_payment"
+              [nbAutocomplete]="autoDriver"
+            />
+
+            <nb-autocomplete
+              #autoDriver
+              (selectedChange)="onDriverSelectionChange($event)"
+            >
+              <nb-option
+                *ngFor="let option of type_payment_list"
+                [value]="option"
+              >
+                {{ option }}
+              </nb-option>
+            </nb-autocomplete>
+          </div>
+          <div class="input">
+            <label for="price">Price</label>
+            <input
+              id="price"
+              type="number"
+              formControlName="price"
+              nbInput
+              placeholder="Price"
+              [status]="
+                isFieldTouched('price')
+                  ? isFieldValid('price')
+                    ? 'success'
+                    : 'danger'
+                  : 'basic'
+              "
+            />
+            <p class="caption status-danger" *ngIf="isFieldInvalid('price')">
+              Price is required!
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="password">Password</label>
+            <nb-form-field>
+              <input
+                [type]="showPassword ? 'input' : 'password'"
+                id="password"
+                nbInput
+                fullWidth
+                placeholder="**************"
+                formControlName="password"
+                [status]="
+                  isFieldTouched('password')
+                    ? isFieldValid('password')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+              <button
+                type="button"
+                nbSuffix
+                nbButton
+                ghost
+                (click)="showPassword = !showPassword"
+              >
+                <nb-icon
+                  [icon]="showPassword ? 'eye-outline' : 'eye-off-2-outline'"
+                  pack="eva"
+                  [attr.aria-label]="
+                    showPassword ? 'hide password' : 'show password'
+                  "
+                >
+                </nb-icon>
+              </button>
+            </nb-form-field>
+
+            <p class="caption status-danger" *ngIf="isFieldInvalid('password')">
+              Password is required!
+            </p>
+          </div>
+
+          <div class="input">
+            <label for="password_confirmation">Password confirm</label>
+            <nb-form-field>
+              <input
+                [type]="showConfirmPassword ? 'input' : 'password'"
+                id="password_confirmation"
+                nbInput
+                fullWidth
+                placeholder="**************"
+                formControlName="password_confirmation"
+                [status]="
+                  isFieldTouched('password_confirmation')
+                    ? isFieldValid('password_confirmation') &&
+                      !driverForm.hasError('matchFields')
+                      ? 'success'
+                      : 'danger'
+                    : 'basic'
+                "
+              />
+              <button
+                type="button"
+                nbSuffix
+                nbButton
+                ghost
+                (click)="showConfirmPassword = !showConfirmPassword"
+              >
+                <nb-icon
+                  [icon]="
+                    showConfirmPassword ? 'eye-outline' : 'eye-off-2-outline'
+                  "
+                  pack="eva"
+                  [attr.aria-label]="
+                    showConfirmPassword ? 'hide password' : 'show password'
+                  "
+                >
+                </nb-icon>
+              </button>
+            </nb-form-field>
+            <p
+              class="caption status-danger"
+              *ngIf="
+                isFieldInvalid('password_confirmation') ||
+                driverForm.hasError('matchFields')
+              "
+            >
+              Password doesn't match!
+            </p>
+          </div>
+        </div>
+
+        <div class="cities">
+          <label for="">Cities</label>
+          <div class="boxes">
+            <nb-checkbox
+              *ngFor="let city of allCities"
+              (checkedChange)="onCitySelect(city)"
+              [checked]="isChecked(city)"
+              >{{ city.city }}</nb-checkbox
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button nbButton type="button" (click)="goBack()">Cancel</button>
+
+        <button
+          nbButton
+          [nbSpinner]="loading"
+          nbSpinnerStatus="basic"
+          [disabled]="loading"
+          status="primary"
+          type="submit"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="!driverForm" style="padding: 2rem">
+      <nb-spinner></nb-spinner>
+    </div>
+  </nb-card-body>
+</nb-card>

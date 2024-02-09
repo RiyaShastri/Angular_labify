@@ -1,0 +1,133 @@
+@use "../../../styles/helpers" as *;
+
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+
+.video {
+  video {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+}
+
+.cards-section-wrapper {
+  display: flex;
+  justify-content: stretch;
+  align-items: end;
+  min-height: calc(100vh - $nav-height);
+
+  .cards-section {
+    position: relative;
+
+    &::before {
+      content: "";
+      height: 50%;
+      width: 100%;
+      background-color: $light-1;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .custom-card {
+      h2 {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: "";
+          width: 50px;
+          height: 2px;
+          background-color: $green;
+          bottom: 0;
+          left: 0;
+        }
+      }
+    }
+  }
+}
+
+.vision-section {
+  .row {
+    @include screen-lg {
+      background-image: url("../../../assets/img/section-2-bg.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    @include screen-xl {
+      background-size: contain;
+    }
+
+    .col-lg-6:last-child {
+      position: relative;
+      padding: 5rem;
+
+      &::after {
+        content: "";
+        background-image: url("../../../assets/img/icons/quote.svg");
+        width: 64px;
+        height: 64px;
+        position: absolute;
+        top: 0;
+        right: 100px;
+      }
+
+      @include screen-xs {
+        padding: 5rem 2rem;
+
+        &::after {
+          right: 2.5rem;
+        }
+      }
+    }
+  }
+}
+
+.swiper-section {
+  h2 {
+    position: relative;
+    padding: 1rem 6rem 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: $green;
+      width: 132px;
+      height: 4px;
+    }
+  }
+
+  .swiper-slide {
+    margin-top: 0;
+    transition: all ease-in-out 0.3s;
+  }
+
+  .swiper-slide-next {
+    margin-top: 3rem !important;
+  }
+
+  .client-nav-btn-prev,
+  .client-nav-btn-next {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50px !important;
+    position: absolute;
+  }
+
+  .client-nav-btn-prev {
+    left: 2rem !important;
+  }
+
+  .client-nav-btn-next {
+    right: 2rem !important;
+  }
+}

@@ -1,0 +1,544 @@
+<nb-card>
+  <nb-card-header class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+    <div class="">
+      <!-- <button (click)="location.back()" nbButton>
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </button> -->
+       <a
+        routerLink="/track-orders"
+       [queryParams]="{ search: search_term,from: from,to:to,company:company }"
+        queryParamsHandling="merge"
+        nbButton
+      >
+        <nb-icon [icon]="'arrow-back-outline'"></nb-icon>
+      </a>
+      View Order Details
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <button
+        nbButton
+        status="primary"
+        routerLink="order-status"
+        (click)="navigateUpdate()"
+      >
+        Order Status Details
+      </button>
+
+      <button
+        nbButton
+        status="primary"
+        [nbSpinner]="printingBill"
+        [disabled]="printingBill"
+        (click)="printBill()"
+      >
+        Print Bill
+      </button>
+
+      <button
+        nbButton
+        status="primary"
+        [nbSpinner]="printingPieces"
+        [disabled]="printingPieces"
+        (click)="printPieces()"
+      >
+        Print Pieces
+      </button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="orderForm">
+      <div class="inputs">
+        <div class="row" *ngIf="role !== 'company'">
+          <div class="input">
+            <label for=""> Driver</label>
+            <!-- <nb-select
+            placeholder="Select Driver"
+            class=""
+            [(selected)]="selectedDriver"
+          >
+            <nb-option [value]="driver" *ngFor="let driver of drivers">{{
+              driver.name
+            }}</nb-option>
+          </nb-select> -->
+
+            <input
+              #autoInput
+              nbInput
+              type="text"
+              (input)="onDriverChange()"
+              placeholder="Assign Driver"
+              [value]="selectedDriver?.name"
+              readonly
+              />
+              <!-- [nbAutocomplete]="autoDriver" -->
+
+            <!-- <nb-autocomplete
+              #autoDriver
+              (selectedChange)="onDriverSelectionChange($event)"
+            >
+              <nb-option
+                *ngFor="let option of filteredDrivers$ | async"
+                [value]="option"
+              >
+                {{ option.name }}
+              </nb-option>
+            </nb-autocomplete> -->
+
+            <!-- <button
+              nbButton
+              [nbSpinner]="loading"
+              class="mt-3"
+              nbSpinnerStatus="basic"
+              [disabled]="loading"
+              status="primary"
+              type="submit"
+              (click)="onDriverSelected()"
+            >
+              Save
+            </button> -->
+            <!-- <div class="mt-2">
+            <label for="delivery-contact">Selected Driver: </label>
+
+            <input
+              type="text"
+              id="order_status"
+              class="text-phone mx-2"
+              nbInput
+              [value]="selectedDriver?.name"
+              disabled
+            />
+          </div> -->
+          </div>
+          <div class="input">
+            <label for="">Order Status</label>
+             <input
+              type="text"
+              id="status"
+              class=" "
+              nbInput
+              [value]="selectedStatus"
+              readonly
+            />
+            <!-- <nb-select
+              placeholder="Select Status"
+              class=""
+              [(selected)]="selectedStatus"
+            > -->
+              <!-- <nb-option [value]="item" *ngFor="let item of status">{{
+                item
+              }}</nb-option> -->
+            <!-- </nb-select> -->
+            <!-- <button
+              nbButton
+              [nbSpinner]="loading"
+              class="mt-3"
+              nbSpinnerStatus="basic"
+              [disabled]="loading"
+              status="primary"
+              type="submit"
+              (click)="onStatusSelected()"
+            >
+              Save
+            </button> -->
+            <!-- <div class="mt-2">
+            <label for="delivery-contact">Current Status :</label>
+
+            <input
+              type="text"
+              id="delivery-contact"
+              class="text-phone mx-2"
+              nbInput
+              [value]="selectedStatus"
+              disabled
+            />
+          </div> -->
+          </div>
+        </div>
+        <div class="input">
+          <!-- <span class="ml-2">{{selectedDriver?.name}}</span> -->
+        </div>
+        <div class="row">
+          <div class="input">
+            <!-- <input
+              #autoPickupInput
+              nbInput
+              type="text"
+              (input)="onPickupChange()"
+              placeholder="Change Address"
+              [nbAutocomplete]="autoPickup"
+            />
+
+            <nb-autocomplete
+              #autoPickup
+              (selectedChange)="onPickupSelectionChange($event)"
+            >
+              <nb-option
+                *ngFor="let option of filteredPickup$ | async"
+                [value]="option"
+              >
+                {{ option }}
+              </nb-option>
+            </nb-autocomplete> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Pickup From</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="pickup_address_name"
+              readonly
+            />
+          </div>
+
+          <div class="input">
+            <label for="delivery-contact">Pickup Phone</label>
+
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="phone"
+              formControlName="pickup_phone"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+           <div class="input">
+            <label for="pickup-date">Pickup Date</label>
+            <input
+              id="pickup-date"
+              class="w-100"
+              nbInput
+              placeholder="Enter Date"
+              [(ngModel)]="pickup_date"
+              [ngModelOptions]="{ standalone: true }"
+              [nbDatepicker]="pickupDatePicker"
+              readonly
+            />
+            <nb-datepicker
+              #pickupDatePicker
+              (dateChange)="onDateInput($event)"
+            ></nb-datepicker>
+          </div>
+
+          <div class="input">
+            <label>Pickup Time</label>
+            <input
+              nbInput
+              type="text"
+              class="w-100"
+              [nbTimepicker]="timepicker1"
+              nbInput
+              [(ngModel)]="pickup_readyby"
+              [ngModelOptions]="{ standalone: true }"
+              readonly
+            />
+            <nb-timepicker
+              [twelveHoursFormat]="true"
+              #timepicker1
+            ></nb-timepicker>
+          </div>
+        </div>
+        <div class="input">
+          <label for="delivery-contact">Pickup Address</label>
+
+          <input
+            type="text"
+            id="delivery-contact"
+            class=" "
+            nbInput
+            [value]="pickupAddress"
+            readonly
+          />
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Pickup Notes</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="pickupNotes"
+              formControlName="pickup_instructions"
+              readonly
+            />
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="input">
+            <input
+              #autoDeliveryInput
+              nbInput
+              type="text"
+              (input)="onDeliveryChange()"
+              placeholder="Change Address"
+              />
+              <!-- [nbAutocomplete]="delivery_auto" -->
+
+            <!-- <nb-autocomplete
+              #delivery_auto
+              (selectedChange)="onDeliverySelectionChange($event)"
+            >
+              <nb-option
+                *ngFor="let option of filteredDelivery$ | async"
+                [value]="option"
+              >
+                {{ option }}
+              </nb-option>
+            </nb-autocomplete> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Delivery To</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="delivery_address_name"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Delivery Phone</label>
+
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="delivery_phone"
+              formControlName="delivery_phone"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="input">
+          <label for="delivery-contact">Delivery Address</label>
+
+          <input
+            type="text"
+            id="delivery-contact"
+            class=" "
+            nbInput
+            [value]="deliveryAddress"
+            readonly
+          />
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-date">Delivery Date</label>
+            <input
+              id="delivery-date"
+              class="w-100"
+              nbInput
+              placeholder="Enter Date"
+              [(ngModel)]="delivery_date"
+              [ngModelOptions]="{ standalone: true }"
+              [nbDatepicker]="toDatePicker"
+              readonly
+            />
+            <nb-datepicker
+              #toDatePicker
+              (dateChange)="onDateDeliveryInput($event)"
+            ></nb-datepicker>
+          </div>
+
+          <div class="input">
+            <label>Delivery Time</label>
+            <input
+              nbInput
+              type="text"
+              [nbTimepicker]="timepicker3"
+              class="w-100"
+              nbInput
+              [(ngModel)]="delivery_readyby"
+              [ngModelOptions]="{ standalone: true }"
+              readonly
+            />
+            <nb-timepicker
+              [twelveHoursFormat]="true"
+              #timepicker3
+            ></nb-timepicker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Delivery Notes</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="deliveryNotes"
+              formControlName="delivery_instructions"
+              readonly
+            />
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Pieces</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="order?.order_pieces"
+              formControlName="delivery_pieces"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">weight</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="order?.delivery_weight"
+              formControlName="delivery_weight"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Order code</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="order?.order_code"
+              readonly
+            />
+          </div>
+          <div class="input">
+            <label for="delivery-contact">Refrence Number</label>
+            <input
+              type="text"
+              id="delivery-contact"
+              class=" "
+              nbInput
+              [value]="order?.delivery_reference_number"
+              formControlName="delivery_reference_number"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="input">
+            <label for="delivery-contact">Service Type</label>
+            <input type="text" id="delivery-contact" class=" " nbInput [value]="order?.service_type" disabled />
+          </div>
+
+        </div> -->
+      </div>
+      <div class="row my-2">
+        <div class="input">
+          <label for="service_type" class="">Service Level </label>
+           <input
+              type="text"
+              id="service_type"
+              class=" "
+              nbInput
+              [value]="selectedService"
+              formControlName="service_type"
+              readonly
+            />
+          <!-- <nb-select
+            id="service_type"
+            placeholder="Select Service Level"
+            [(selected)]="selectedService"
+            formControlName="service_type"
+          > -->
+            <!-- <nb-option value="0" hidden>Select Location Type</nb-option> -->
+            <!-- <nb-option value="regular"
+              >Regular <br />
+              (Delivery Within 3 hour)</nb-option
+            >
+            <nb-option value="stat"
+              >STAT <br />
+              (Delivery Within 2 hour)</nb-option
+            >
+            <nb-option value="super_stat"
+              >Super STAT <br />
+              (Delivery Within 1 hour)</nb-option
+            >
+            <nb-option value="next_day">Next Day</nb-option> -->
+          <!-- </nb-select> -->
+        </div>
+        <div class="input">
+          <label for="" class=""
+            >Order Type <span class="required">(Required)</span></label
+          >
+           <input
+              type="text"
+              id="order_type"
+              class=" "
+              nbInput
+              [value]="selectedOrderType"
+              formControlName="order_type"
+              readonly
+            />
+          <!-- <nb-select
+            placeholder="Select Order Type"
+            [(selected)]="selectedOrderType"
+            formControlName="order_type"
+          > -->
+            <!-- <nb-option value="0" hidden>Select Location Type</nb-option> -->
+            <!-- <nb-option value="regular_specimen">Regular specimen</nb-option>
+            <nb-option value="frozen">Frozen</nb-option>
+            <nb-option value="supplies">Supplies</nb-option> -->
+          <!-- </nb-select> -->
+        </div>
+      </div>
+      <div class="input">
+        <label for="delivery-contact">Price Type</label>
+        <input
+          type="text"
+          id="delivery-contact"
+          class=" "
+          nbInput
+          [value]="order?.type_price"
+          disabled
+        />
+      </div>
+      <!-- <div class="input">
+        <label for="delivery-contact">Order Type</label>
+        <input type="text" id="delivery-contact" class="ml-3" nbInput [value]="order?.order_type || 'None'"
+          disabled />
+      </div> -->
+      <!-- <div class="button-group">
+        <button
+          nbButton
+          [nbSpinner]="loading"
+          nbSpinnerStatus="basic"
+          [disabled]="loading"
+          status="primary"
+          type="submit"
+          (click)="onSubmit()"
+        >
+          Update Order
+        </button>
+      </div> -->
+    </form>
+    <div class="" style="margin: 1rem 0">
+      <ngx-two-pin-address-map
+        [pinPosition]="pinPosition"
+        [secondPinPosition]="secondPinPosition"
+      ></ngx-two-pin-address-map>
+    </div>
+  </nb-card-body>
+</nb-card>

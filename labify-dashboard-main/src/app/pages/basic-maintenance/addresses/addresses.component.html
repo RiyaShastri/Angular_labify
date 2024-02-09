@@ -1,0 +1,13 @@
+<nb-card>
+  <nb-card-body>
+    <nb-tabset (changeTab)="onTabChange($event)">
+      <nb-tab tabTitle="Clints-Addresses">
+        <ngx-all-company-addresses *ngIf="currentTab == 'Clints-Addresses'"></ngx-all-company-addresses>
+      </nb-tab>
+      <nb-tab tabTitle="Addresses Points">
+        <ngx-doctor-address *ngIf="currentTab == 'Addresses Points'"></ngx-doctor-address>
+      </nb-tab>
+
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

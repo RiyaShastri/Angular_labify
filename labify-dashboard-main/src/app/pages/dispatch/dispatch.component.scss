@@ -1,0 +1,26 @@
+::ng-deep {
+  nb-tab.content-active {
+    padding: 2rem 0 1rem !important;
+    height: calc(100% - 2rem);
+  }
+}
+
+nb-layout-column {
+  padding: 0 !important;
+}
+
+nb-card {
+  min-height: 100vh !important;
+  margin-bottom: 0 !important;
+  padding-top: 5rem !important;
+
+  // @media screen and (min-width: 1200px) {
+  //   height: calc(100% - 5rem) !important;
+  // }
+}
+
+h4 {
+  @media screen and (max-width: 460px) {
+    font-size: 1rem;
+  }
+}
